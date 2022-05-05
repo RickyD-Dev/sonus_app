@@ -732,7 +732,7 @@ footer {
     transition: color 0.3s ease-in-out;
 }
 
-/* @media only screen and (orientation: landscape)and (min-height: 359px) and (max-height:375px) and (max-width: 820px) {
+@media only screen and (orientation: landscape)and (min-height: 359px) and (max-height:375px) and (max-width: 820px) {
     .main-container {
         height: 100%;
         max-width: 100%;
@@ -768,4 +768,4 @@ footer {
         margin-top: 25px;
         height: 40px;
     }
-} */
+}
