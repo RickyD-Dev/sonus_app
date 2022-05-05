@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.js": "/sonus_app/static/js/main.dc692cc2.js",
+    "static/media/DADGAD_A_String.wav": "/sonus_app/static/media/DADGAD_A_String.2293c00bc6d77d1623f4.wav",
+    "static/media/DADGAD_D_String.wav": "/sonus_app/static/media/DADGAD_D_String.41b5afc7fa421ccd85ca.wav",
+    "static/media/DADGAD_G_String.wav": "/sonus_app/static/media/DADGAD_G_String.3b80b490fbbc3ba5394c.wav",
+    "static/media/DADGAD_HighD_String.wav": "/sonus_app/static/media/DADGAD_HighD_String.e7c8af9c1dd9d54bd38e.wav",
+    "static/media/DADGAD_LowA_String.wav": "/sonus_app/static/media/DADGAD_LowA_String.43d30b4c1f88de315aed.wav",
+    "static/media/DADGAD_LowD_String.wav": "/sonus_app/static/media/DADGAD_LowD_String.6d23886f1752983c1a4e.wav",
+    "static/media/DropC_A_String.wav": "/sonus_app/static/media/DropC_A_String.06636dc889dc21ad6c0a.wav",
+    "static/media/DropC_C_String.wav": "/sonus_app/static/media/DropC_C_String.36cc3af9cdd8c5671bc4.wav",
+    "static/media/DropC_F_String.wav": "/sonus_app/static/media/DropC_F_String.87758e7d299d9e493184.wav",
+    "static/media/DropC_G_String.wav": "/sonus_app/static/media/DropC_G_String.76cc5fe0b730a978bca5.wav",
+    "static/media/DropC_HighD_String.wav": "/sonus_app/static/media/DropC_HighD_String.fa1d9a67e6b1d0b51712.wav",
+    "static/media/DropC_LowC_String.wav": "/sonus_app/static/media/DropC_LowC_String.a791dbd256543949ef3d.wav",
+    "static/media/DropD_A_String.wav": "/sonus_app/static/media/DropD_A_String.e92aef790fd10773eec1.wav",
+    "static/media/DropD_B_String.wav": "/sonus_app/static/media/DropD_B_String.6d58923f955834c47ebf.wav",
+    "static/media/DropD_D_String.wav": "/sonus_app/static/media/DropD_D_String.69bc1acba675002ce2ae.wav",
+    "static/media/DropD_G_String.wav": "/sonus_app/static/media/DropD_G_String.7cf818d989904486a412.wav",
+    "static/media/DropD_HighE_String.wav": "/sonus_app/static/media/DropD_HighE_String.433222ea2f61db4ab308.wav",
+    "static/media/DropD_LowD_String.wav": "/sonus_app/static/media/DropD_LowD_String.47b9e54969bfb51236d1.wav",
+    "static/media/Standard_A_String.wav": "/sonus_app/static/media/Standard_A_String.e92aef790fd10773eec1.wav",
+    "static/media/Standard_B_String.wav": "/sonus_app/static/media/Standard_B_String.6d58923f955834c47ebf.wav",
+    "static/media/Standard_D_String.wav": "/sonus_app/static/media/Standard_D_String.69bc1acba675002ce2ae.wav",
+    "static/media/Standard_G_String.wav": "/sonus_app/static/media/Standard_G_String.7cf818d989904486a412.wav",
+    "static/media/Standard_HighE_String.wav": "/sonus_app/static/media/Standard_HighE_String.433222ea2f61db4ab308.wav",
+    "static/media/Standard_LowE_String.wav": "/sonus_app/static/media/Standard_LowE_String.15bc814104ad882a62f6.wav",
+    "index.html": "/sonus_app/index.html",
+    "main.dc692cc2.js.map": "/sonus_app/static/js/main.dc692cc2.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.dc692cc2.js"
+  ]
+}
