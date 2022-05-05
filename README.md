@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+# Getting Started with Sonus
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app is as simple as it gets when it comes to a tune-by-ear online guitar tuner. Tapping on the strings will play the sound of the tapped/clicked string.
 
-## Available Scripts
+## Available Tunings
 
-In the project directory, you can run:
+Within the tuning nav menu, you can find:
 
-### `npm start`
+### `Standard Tuning`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This consists of the notes: Low E, A, D, G, B, High E
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### `Drop D Tuning`
 
-### `npm test`
+This consists of the notes: Low D, A, D, G, B, High E
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `Drop C Tuning`
 
-### `npm run build`
+This consists of the notes: Low C, G, C, F, A, High D
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `DADGAD Tuning`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This consists of the notes: Low D, Low A, D, G, A, High D
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Looping
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+You can loop any of the sounds in order to keep a sound playing as you fine tune your guitar to the tone by ear.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+In order to begin, first tap/click on the Loop button and this will stop any sounds that were currently playing. Once the Loop is ON, you can tap/click on a string once and the looping sequence will begin. The sound will replay once it reaches the end.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Tapping/Clicking on another string while another is already looping, will stop that looping sound immdiately and begin to play the new string that was tapped/clicked.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Turning OFF the Loop will again stop all sounds immediately. You can then proceed to tap/click on the strings afterwards to make sounds again.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
