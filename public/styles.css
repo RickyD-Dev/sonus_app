@@ -252,7 +252,7 @@ hr {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 35%;
+    width: 45%;
     list-style: none;
 }
 
@@ -262,13 +262,13 @@ hr {
 
 @media only screen and (min-height: 705px) and (max-height: 769px) {
     .standard-tuning {
-        width: 39%;
+        width: 45%;
     }
 }
 
 @media only screen and (min-height: 770px) {
     .standard-tuning {
-        width: 43%;
+        width: 48%;
     }
 }
 
@@ -278,7 +278,7 @@ hr {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 35%;
+    width: 45%;
     list-style: none;
 }
 
@@ -288,13 +288,13 @@ hr {
 
 @media only screen and (min-height: 705px) and (max-height: 769px) {
     .dropD-tuning {
-        width: 39%;
+        width: 45%;
     }
 }
 
 @media only screen and (min-height: 770px) {
     .dropD-tuning {
-        width: 43%;
+        width: 48%;
     }
 }
 
@@ -304,7 +304,7 @@ hr {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 35%;
+    width: 45%;
     list-style: none;
 }
 
@@ -314,13 +314,13 @@ hr {
 
 @media only screen and (min-height: 705px) and (max-height: 769px) {
     .dropC-tuning {
-        width: 39%;
+        width: 45%;
     }
 }
 
 @media only screen and (min-height: 770px) {
     .dropC-tuning {
-        width: 43%;
+        width: 48%;
     }
 }
 
@@ -330,7 +330,7 @@ hr {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 35%;
+    width: 45%;
     list-style: none;
 }
 
@@ -340,13 +340,13 @@ hr {
 
 @media only screen and (min-height: 705px) and (max-height: 769px) {
     .dadgad-tuning {
-        width: 39%;
+        width: 45%;
     }
 }
 
 @media only screen and (min-height: 770px) {
     .dadgad-tuning {
-        width: 43%;
+        width: 48%;
     }
 }
 
@@ -387,7 +387,7 @@ hr {
     justify-content: center;
     align-items: center;
     position: relative;
-    height: 70%;
+    height: 80%;
     width: 100%;
     min-height: 467px;
     max-height: 556px;
