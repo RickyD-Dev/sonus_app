@@ -1,4 +1,4 @@
-# Getting Started with Sonus
+# Getting Started with Sonus :guitar:
 
 This app is as simple as it gets when it comes to a tune-by-ear online guitar tuner. Tapping on the strings will play the sound of the tapped/clicked string.
 
