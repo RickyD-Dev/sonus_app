@@ -126,7 +126,6 @@ function Main() {
     let looped = useRef(false);
     const handleLoopAction = () => {
         looped.current = !looped.current;
-        console.log("Looped current is: " + looped.current);
         setChecked(!checked);
         changeStringStatus(stringOne);
         changeStringStatus(stringTwo);
@@ -149,32 +148,24 @@ function Main() {
     }
 
     // This function handles the logic for each string.
-    // --- It takes 5 parameters: 
+    // --- It takes 3 parameters: 
     // 1. The actual sound (example: standardLowE),
     // 2. The loop ref to see if true/false (example: looped),
-    // 3. String ref to see if true/false (example: stringOne),
-    // 4. The setString function to change the state of the const responsible for letting the string light up or not (example: setFirstString),
-    // 5. Finally, the stringState const that you would place inside the setString function (example: firstStringChosen).
+    // 3. The setString function to change the state of the const responsible for letting the string light up or not (example: setFirstString),
     // --- When executed:
     // Allows the sound to play first and logs that it is indeed playing in the console.
-    // Once the sound reaches the end, it will log that it is finished and then it'll decided what to do depending on whether the Loop button is on (looped.current set to true) or not (looped.current set to false).
-    // If Loop button is ON, it will keep the stringRef as true which will allow the sound to play over & over as long as the Loop is on. It will check if Loop is still on after the sound reaches the end.
-    // If Loop button is OFF, it will set the stringRef to false which will stop the sound entirely.
-    function handleStringOptions(sound, loopRef, stringRef, setFunc, stringState) {
+    // Once the sound reaches the end, it will log that it is finished and then it'll decided what to do depending on whether the Loop button is ON (looped.current set to true) or OFF (looped.current set to false).
+    // If Loop button is ON, it will allow the sound to play over & over. It will check if Loop is still ON after the sound reaches the end once again.
+    // If Loop button is turned OFF during a loop sequence, it will stop the current sound playing entirely. Then strings can be played as normal.
+    function handleStringOptions(sound, loopRef, setFunc) {
         sound.play();
-        console.log("Playing");
         sound.on("end", () => {
-            console.log("Finished Playing.");
-            if (loopRef.current === false) {
-                stringChangeNow(stringRef);
-                console.log("String Now FALSE: " + stringRef.current);
-                changeStringStatus(stringRef);
-            } else if (loopRef.current === true) {
+            setFunc(false);
+            if (loopRef.current === true) {
+                sound.on("play", () => {
+                    setFunc(true);
+                });
                 sound.play();
-                setFunc(!stringState);
-                console.log("Loop is currently: " + loopRef.current);
-            } else {
-                console.log("Error.");
             }
         });
     }
@@ -252,7 +243,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardLowE, looped, stringOne, setFirstString, firstStringChosen);
+                    handleStringOptions(standardLowE, looped, setFirstString);
 
                 } else if (param === "A" && looped.current === true) {
                     setFirstString(false);
@@ -280,7 +271,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardA, looped, stringTwo, setSecondString, secondStringChosen);
+                    handleStringOptions(standardA, looped, setSecondString);
 
                 } else if (param === "D" && looped.current === true) {
                     setFirstString(false);
@@ -308,7 +299,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardD, looped, stringThree, setThirdString, thirdStringChosen);
+                    handleStringOptions(standardD, looped, setThirdString);
 
                 } else if (param === "G" && looped.current === true) {
                     setFirstString(false);
@@ -336,7 +327,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardG, looped, stringFour, setFourthString, fourthStringChosen);
+                    handleStringOptions(standardG, looped, setFourthString);
 
                 } else if (param === "B" && looped.current === true) {
                     setFirstString(false);
@@ -364,7 +355,7 @@ function Main() {
                     changeStringStatus(stringFour);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardB, looped, stringFive, setFifthString, fifthStringChosen);
+                    handleStringOptions(standardB, looped, setFifthString);
 
                 } else if (param === "High E" && looped.current === true) {
                     setFirstString(false);
@@ -392,7 +383,7 @@ function Main() {
                     changeStringStatus(stringFour);
                     changeStringStatus(stringFive);
 
-                    handleStringOptions(standardHighE, looped, stringSix, setSixthString, sixthStringChosen);
+                    handleStringOptions(standardHighE, looped, setSixthString);
 
                 // For when loop mechanic is OFF:
                 } else if (param === "Low E" && looped.current === false) {
@@ -403,8 +394,7 @@ function Main() {
                     setSixthString(false);
                     setFirstString(true);
 
-                    handleStringOptions(standardLowE, looped, stringOne, setFirstString, firstStringChosen);
-                    console.log(param);
+                    handleStringOptions(standardLowE, looped, setFirstString);
                 } else if (param === "A" && looped.current === false) {
                     setFirstString(false);
                     setThirdString(false);
@@ -413,7 +403,7 @@ function Main() {
                     setSixthString(false);
                     setSecondString(true);
 
-                    handleStringOptions(standardA, looped, stringTwo, setSecondString, secondStringChosen);
+                    handleStringOptions(standardA, looped, setSecondString);
                 } else if (param === "D" && looped.current === false) {
                     setFirstString(false);
                     setSecondString(false);
@@ -422,7 +412,7 @@ function Main() {
                     setSixthString(false);
                     setThirdString(true);
 
-                    handleStringOptions(standardD, looped, stringThree, setThirdString, thirdStringChosen);
+                    handleStringOptions(standardD, looped, setThirdString);
                 } else if (param === "G" && looped.current === false) {
                     setFirstString(false);
                     setSecondString(false);
@@ -431,7 +421,7 @@ function Main() {
                     setSixthString(false);
                     setFourthString(true);
 
-                    handleStringOptions(standardG, looped, stringFour, setFourthString, fourthStringChosen);
+                    handleStringOptions(standardG, looped, setFourthString);
                 } else if (param === "B" && looped.current === false) {
                     setFirstString(false);
                     setSecondString(false);
@@ -440,7 +430,7 @@ function Main() {
                     setSixthString(false);
                     setFifthString(true);
 
-                    handleStringOptions(standardB, looped, stringFive, setFifthString, fifthStringChosen);
+                    handleStringOptions(standardB, looped, setFifthString);
                 } else if (param === "High E" && looped.current === false) {
                     setFirstString(false);
                     setSecondString(false);
@@ -449,7 +439,7 @@ function Main() {
                     setFifthString(false);
                     setSixthString(true);
 
-                    handleStringOptions(standardHighE, looped, stringSix, setSixthString, sixthStringChosen);
+                    handleStringOptions(standardHighE, looped, setSixthString);
                 }
                 return ;
 
@@ -482,7 +472,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDLowD, looped, stringOne, setFirstString, firstStringChosen);
+                        handleStringOptions(dropDLowD, looped, setFirstString);
                     } else if (param === "A" && looped.current === true) {
                         setFirstString(false);
                         setThirdString(false);
@@ -509,7 +499,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDA, looped, stringTwo, setSecondString, secondStringChosen);
+                        handleStringOptions(dropDA, looped, setSecondString);
                     } else if (param === "D" && looped.current === true) {
                         setFirstString(false);
                         setSecondString(false);
@@ -536,7 +526,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDD, looped, stringThree, setThirdString, thirdStringChosen);
+                        handleStringOptions(dropDD, looped, setThirdString);
     
                     } else if (param === "G" && looped.current === true) {
                         setFirstString(false);
@@ -564,7 +554,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDG, looped, stringFour, setFourthString, fourthStringChosen);
+                        handleStringOptions(dropDG, looped, setFourthString);
     
                     } else if (param === "B" && looped.current === true) {
                         setFirstString(false);
@@ -592,7 +582,7 @@ function Main() {
                         changeStringStatus(stringFour);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDB, looped, stringFive, setFifthString, fifthStringChosen);
+                        handleStringOptions(dropDB, looped, setFifthString);
     
                     } else if (param === "High E" && looped.current === true) {
                         setFirstString(false);
@@ -620,7 +610,7 @@ function Main() {
                         changeStringStatus(stringFour);
                         changeStringStatus(stringFive);
     
-                        handleStringOptions(dropDHighE, looped, stringSix, setSixthString, sixthStringChosen);
+                        handleStringOptions(dropDHighE, looped, setSixthString);
 
                     // For when loop mechanic is OFF:
                     } else if (param === "Low D" && looped.current === false) {
@@ -631,8 +621,7 @@ function Main() {
                         setSixthString(false);
                         setFirstString(true);
     
-                        handleStringOptions(dropDLowD, looped, stringOne, setFirstString, firstStringChosen);
-                        console.log(param);
+                        handleStringOptions(dropDLowD, looped, setFirstString);
                     } else if (param === "A" && looped.current === false) {
                         setFirstString(false);
                         setThirdString(false);
@@ -641,7 +630,7 @@ function Main() {
                         setSixthString(false);
                         setSecondString(true);
     
-                        handleStringOptions(dropDA, looped, stringTwo, setSecondString, secondStringChosen);
+                        handleStringOptions(dropDA, looped, setSecondString);
                     } else if (param === "D" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -650,7 +639,7 @@ function Main() {
                         setSixthString(false);
                         setThirdString(true);
     
-                        handleStringOptions(dropDD, looped, stringThree, setThirdString, thirdStringChosen);
+                        handleStringOptions(dropDD, looped, setThirdString);
                     } else if (param === "G" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -659,7 +648,7 @@ function Main() {
                         setSixthString(false);
                         setFourthString(true);
     
-                        handleStringOptions(dropDG, looped, stringFour, setFourthString, fourthStringChosen);
+                        handleStringOptions(dropDG, looped, setFourthString);
                     } else if (param === "B" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -668,7 +657,7 @@ function Main() {
                         setSixthString(false);
                         setFifthString(true);
     
-                        handleStringOptions(dropDB, looped, stringFive, setFifthString, fifthStringChosen);
+                        handleStringOptions(dropDB, looped, setFifthString);
                     } else if (param === "High E" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -677,7 +666,7 @@ function Main() {
                         setFifthString(false);
                         setSixthString(true);
     
-                        handleStringOptions(dropDHighE, looped, stringSix, setSixthString, sixthStringChosen);
+                        handleStringOptions(dropDHighE, looped, setSixthString);
                     }
                     return ;
 
@@ -710,7 +699,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCLowC, looped, stringOne, setFirstString, firstStringChosen);
+                    handleStringOptions(dropCLowC, looped, setFirstString);
 
                 } else if (param === "G" && looped.current === true) {
                     setFirstString(false);
@@ -738,7 +727,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCg, looped, stringTwo, setSecondString, secondStringChosen);
+                    handleStringOptions(dropCg, looped, setSecondString);
 
                 } else if (param === "C" && looped.current === true) {
                     setFirstString(false);
@@ -766,7 +755,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCc, looped, stringThree, setThirdString, thirdStringChosen);
+                    handleStringOptions(dropCc, looped, setThirdString);
 
                 // For when loop mechanic is OFF:
                 } else if (param === "F" && looped.current === true) {
@@ -795,7 +784,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCf, looped, stringFour, setFourthString, fourthStringChosen);
+                    handleStringOptions(dropCf, looped, setFourthString);
 
                 } else if (param === "A" && looped.current === true) {
                     setFirstString(false);
@@ -823,7 +812,7 @@ function Main() {
                     changeStringStatus(stringFour);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCa, looped, stringFive, setFifthString, fifthStringChosen);
+                    handleStringOptions(dropCa, looped, setFifthString);
 
                 } else if (param === "High D" && looped.current === true) {
                     setFirstString(false);
@@ -851,7 +840,7 @@ function Main() {
                     changeStringStatus(stringFour);
                     changeStringStatus(stringFive);
 
-                    handleStringOptions(dropCHighD, looped, stringSix, setSixthString, sixthStringChosen);
+                    handleStringOptions(dropCHighD, looped, setSixthString);
 
                 } else if (param === "Low C" && looped.current === false) {
                     setSecondString(false);
@@ -861,7 +850,7 @@ function Main() {
                     setSixthString(false);
                     setFirstString(true);
 
-                    handleStringOptions(dropCLowC, looped, stringOne, setFirstString, firstStringChosen);
+                    handleStringOptions(dropCLowC, looped, setFirstString);
 
                 } else if (param === "G" && looped.current === false) {
                     setFirstString(false);
@@ -871,7 +860,7 @@ function Main() {
                     setSixthString(false);
                     setSecondString(true);
 
-                    handleStringOptions(dropCg, looped, stringTwo, setSecondString, secondStringChosen);
+                    handleStringOptions(dropCg, looped, setSecondString);
 
                 } else if (param === "C" && looped.current === false) {
                     setFirstString(false);
@@ -881,7 +870,7 @@ function Main() {
                     setSixthString(false);
                     setThirdString(true);
 
-                    handleStringOptions(dropCc, looped, stringThree, setThirdString, thirdStringChosen);
+                    handleStringOptions(dropCc, looped, setThirdString);
 
                 } else if (param === "F" && looped.current === false) {
                     setFirstString(false);
@@ -891,7 +880,7 @@ function Main() {
                     setSixthString(false);
                     setFourthString(true);
 
-                    handleStringOptions(dropCf, looped, stringFour, setFourthString, fourthStringChosen);
+                    handleStringOptions(dropCf, looped, setFourthString);
 
                 } else if (param === "A" && looped.current === false) {
                     setFirstString(false);
@@ -901,7 +890,7 @@ function Main() {
                     setSixthString(false);
                     setFifthString(true);
 
-                    handleStringOptions(dropCa, looped, stringFive, setFifthString, fifthStringChosen);
+                    handleStringOptions(dropCa, looped, setFifthString);
 
                 } else if (param === "High D" && looped.current === false) {
                     setFirstString(false);
@@ -911,7 +900,7 @@ function Main() {
                     setFifthString(false);
                     setSixthString(true);
 
-                    handleStringOptions(dropCHighD, looped, stringSix, setSixthString, sixthStringChosen);
+                    handleStringOptions(dropCHighD, looped, setSixthString);
                 }
                 return ;
 
@@ -944,7 +933,8 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadLowD, looped, stringOne, setFirstString, firstStringChosen);
+                        handleStringOptions(dadgadLowD, looped, setFirstString);
+
                     } else if (param === "Low A" && looped.current === true) {
                         setFirstString(false);
                         setThirdString(false);
@@ -971,7 +961,8 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadLowA, looped, stringTwo, setSecondString, secondStringChosen);
+                        handleStringOptions(dadgadLowA, looped, setSecondString);
+
                     } else if (param === "D" && looped.current === true) {
                         setFirstString(false);
                         setSecondString(false);
@@ -998,7 +989,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadD, looped, stringThree, setThirdString, thirdStringChosen);
+                        handleStringOptions(dadgadD, looped, setThirdString);
     
                     } else if (param === "G" && looped.current === true) {
                         setFirstString(false);
@@ -1026,7 +1017,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadG, looped, stringFour, setFourthString, fourthStringChosen);
+                        handleStringOptions(dadgadG, looped, setFourthString);
     
                     } else if (param === "A" && looped.current === true) {
                         setFirstString(false);
@@ -1054,7 +1045,7 @@ function Main() {
                         changeStringStatus(stringFour);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadA, looped, stringFive, setFifthString, fifthStringChosen);
+                        handleStringOptions(dadgadA, looped, setFifthString);
     
                     } else if (param === "High D" && looped.current === true) {
                         setFirstString(false);
@@ -1082,7 +1073,7 @@ function Main() {
                         changeStringStatus(stringFour);
                         changeStringStatus(stringFive);
     
-                        handleStringOptions(dadgadHighD, looped, stringSix, setSixthString, sixthStringChosen);
+                        handleStringOptions(dadgadHighD, looped, setSixthString);
 
                     // For when loop mechanic is OFF:
                     } else if (param === "Low D" && looped.current === false) {
@@ -1093,8 +1084,7 @@ function Main() {
                         setSixthString(false);
                         setFirstString(true);
     
-                        handleStringOptions(dadgadLowD, looped, stringOne, setFirstString, firstStringChosen);
-                        console.log(param);
+                        handleStringOptions(dadgadLowD, looped, setFirstString);
                     } else if (param === "Low A" && looped.current === false) {
                         setFirstString(false);
                         setThirdString(false);
@@ -1103,7 +1093,7 @@ function Main() {
                         setSixthString(false);
                         setSecondString(true);
     
-                        handleStringOptions(dadgadLowA, looped, stringTwo, setSecondString, secondStringChosen);
+                        handleStringOptions(dadgadLowA, looped, setSecondString);
                     } else if (param === "D" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -1112,7 +1102,7 @@ function Main() {
                         setSixthString(false);
                         setThirdString(true);
     
-                        handleStringOptions(dadgadD, looped, stringThree, setThirdString, thirdStringChosen);
+                        handleStringOptions(dadgadD, looped, setThirdString);
                     } else if (param === "G" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -1121,7 +1111,7 @@ function Main() {
                         setSixthString(false);
                         setFourthString(true);
     
-                        handleStringOptions(dadgadG, looped, stringFour, setFourthString, fourthStringChosen);
+                        handleStringOptions(dadgadG, looped, setFourthString);
                     } else if (param === "A" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -1130,7 +1120,7 @@ function Main() {
                         setSixthString(false);
                         setFifthString(true);
     
-                        handleStringOptions(dadgadA, looped, stringFive, setFifthString, fifthStringChosen);
+                        handleStringOptions(dadgadA, looped, setFifthString);
                     } else if (param === "High D" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -1139,12 +1129,11 @@ function Main() {
                         setFifthString(false);
                         setSixthString(true);
     
-                        handleStringOptions(dadgadHighD, looped, stringSix, setSixthString, sixthStringChosen);
+                        handleStringOptions(dadgadHighD, looped, setSixthString);
                     }
                     return ;
 
                 default:
-                    console.log("Error.");
                     return ;
         }
     }
@@ -1212,17 +1201,14 @@ function Main() {
 
     // This sets up the currently selected tuning from the tuning menu (Standard Tuning, Drop D, Drop C, DADGAD):
     useEffect(() => {
-        console.log("Here's the current selection: " + JSON.stringify(currentlySelected));
     }, [currentlySelected]);
 
     // This helps set up the name of each note of the selected tuning and sends it as the "id" for the strings within the Guitar component:
     useEffect(() => {
-        console.log(stringKey);
     },[stringKey]);
 
     // This helps update the name of the tuning category in the nav menu title that the user selects:
     useEffect(() => {
-        console.log("Tuning selected: " + tuningName);
     },[tuningName]);
 
     // This useEffect below helps turn off the lit up string after the user clicks/taps on one. It will allow the string to stay lit for 4 seconds and then it will turn off (go back to the dafault style of the string):
@@ -1308,7 +1294,6 @@ function Main() {
                 return ;
 
             default:
-                console.log("Nothing was plucked.");
                 return ;
         }
     }

@@ -405,14 +405,6 @@ hr {
     padding-bottom: 25px;
 }
 
-.hidden-counterbalance {
-    display: flex;
-    width: 100%;
-    max-width: 80px;
-    height: 30px;
-    margin-left: 20px;
-}
-
 .guitar-container {
     display: flex;
     flex-direction: column;
@@ -507,9 +499,17 @@ hr {
     height: 30px;
     width: 100%;
     max-width: 80px;
-    margin-right: 20px;
+    margin-right: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+}
+
+.hidden-counterbalance {
+    display: flex;
+    width: 100%;
+    max-width: 80px;
+    height: 30px;
+    margin-left: 10px;
 }
 
 .looper-container:hover {
