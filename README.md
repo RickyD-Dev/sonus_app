@@ -2,7 +2,7 @@
 
 This app is as simple as it gets when it comes to a tune-by-ear online guitar tuner. Tapping on the strings will play the sound of the tapped/clicked string.
 
-## Available Tunings
+## Available Tunings :notes:
 
 Within the tuning nav menu, you can find:
 
@@ -24,7 +24,7 @@ This consists of the notes: Low D, Low A, D, G, A, High D
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Looping
+## Looping :loop:
 
 You can loop any of the sounds in order to keep a sound playing as you fine tune your guitar to the tone by ear.
 
