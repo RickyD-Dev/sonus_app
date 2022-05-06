@@ -82,6 +82,7 @@ hr {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
     width: 100%;
     transition: background-color 1.1s ease-in-out;
 }
@@ -92,6 +93,7 @@ hr {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
     width: 100%;
     transition: background-color 1.1s ease-in-out;
 }
@@ -102,6 +104,7 @@ hr {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
     width: 100%;
     transition: background-color 1.1s ease-in-out;
 }
@@ -112,6 +115,7 @@ hr {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
     width: 100%;
     transition: background-color 1.1s ease-in-out;
 }
@@ -676,8 +680,23 @@ hr {
     font-weight: 300;
 }
 
+.nav-item button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 300;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    width: 100%;
+    padding: 0;
+}
+
 .tuning-span {
     padding-left: 15px;
+    pointer-events: none;
 }
 
 /*------------------- Footer Styles -------------------*/
@@ -689,10 +708,9 @@ footer {
     align-items: center;
     border-top: 1px solid rgba(255,255,255,0.2);
     width: 100%;
-    position: absolute;
+    position: relative;
     bottom: 0;
-    height: 100%;
-    max-height: 40px;
+    height: 50px;
 }
 
 .footer-div {
@@ -738,6 +756,22 @@ footer {
         max-width: 100%;
     }
 
+    .App-Container-Standard {
+        height: 100%;
+    }
+
+    .App-Container-DropD {
+        height: 100%;
+    }
+
+    .App-Container-DropC {
+        height: 100%;
+    }
+
+    .App-Container-DADGAD {
+        height: 100%;
+    }
+
     header {
         margin-top: 30px;
     }
@@ -766,6 +800,6 @@ footer {
         position: relative;
         bottom: 0;
         margin-top: 25px;
-        height: 40px;
+        height: 50px;
     }
 }

@@ -1278,7 +1278,7 @@ function Main() {
         if (!visible) {
             return null;
         }
-    }, []);
+    }, [visible]);
 
     // Handles whether the initial welcome pop-up is visible (when set to true) or not (when set to false):
     function handlePopUp() {
@@ -1366,7 +1366,6 @@ function Main() {
                     <TuningMenu 
                         selectedTuning={currentlySelected.name}
                         targetToggle={handleClick}
-                        onChange={handleToggle}
                         toggleNav={handleToggle}
                         isToggled={isToggled}
                         tuning1={selection[0].tuningList}
@@ -1375,14 +1374,13 @@ function Main() {
                         tuning4={selection[3].tuningList}
                     />
                 </section>
-
-                <footer>
-                    <div className="footer-div">
-                        <p>Created by <a className="footer-link" href="https://rickydlgd.com" title="https://rickydlgd.com" target="_blank">Ricardo Delgado</a></p>
-                        <a href="https://www.buymeacoffee.com/rickydlgd" title="Buy Rick a Coffee (:" target="_blank"><i className="buyCoffee fa-solid fa-mug-hot"></i></a>
-                    </div>
-                </footer>
             </div>
+            <footer>
+                <div className="footer-div">
+                    <p>Created by <a className="footer-link" href="https://rickydlgd.com" title="https://rickydlgd.com" target="_blank" rel="noreferrer">Ricardo Delgado</a></p>
+                    <a href="https://www.buymeacoffee.com/rickydlgd" title="Buy Rick a Coffee (:" target="_blank" rel="noreferrer"><i className="buyCoffee fa-solid fa-mug-hot"></i></a>
+                </div>
+            </footer>
         </div>
     )
 }
