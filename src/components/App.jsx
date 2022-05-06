@@ -1,11 +1,14 @@
 import React from "react";
 import Main from "./Main";
+import Div100vh from "react-div-100vh";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Main />
-    </div>
+    <Div100vh>
+      <div className="App">
+        <Main />
+      </div>
+    </Div100vh>
   );
 }
 
