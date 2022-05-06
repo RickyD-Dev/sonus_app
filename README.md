@@ -35,4 +35,4 @@ Tapping/Clicking on another string while another is already looping, will stop t
 Turning OFF the Loop will again stop all sounds immediately. You can then proceed to tap/click on the strings afterwards to make sounds again.
 
 ## :warning: *Caution* :warning:
-Tapping/Clicking on a string multiple times while the Loop is ON will result in all of those taps getting looped.
+Tapping/Clicking on the looped string multiple times while the Loop is ON will result in all of those taps getting trapped within the loop sequence.
