@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/sonus_app/static/js/main.dc692cc2.js",
+    "main.js": "/sonus_app/static/js/main.62088b7d.js",
     "static/media/DADGAD_A_String.wav": "/sonus_app/static/media/DADGAD_A_String.2293c00bc6d77d1623f4.wav",
     "static/media/DADGAD_D_String.wav": "/sonus_app/static/media/DADGAD_D_String.41b5afc7fa421ccd85ca.wav",
     "static/media/DADGAD_G_String.wav": "/sonus_app/static/media/DADGAD_G_String.3b80b490fbbc3ba5394c.wav",
@@ -26,9 +26,9 @@
     "static/media/Standard_HighE_String.wav": "/sonus_app/static/media/Standard_HighE_String.433222ea2f61db4ab308.wav",
     "static/media/Standard_LowE_String.wav": "/sonus_app/static/media/Standard_LowE_String.15bc814104ad882a62f6.wav",
     "index.html": "/sonus_app/index.html",
-    "main.dc692cc2.js.map": "/sonus_app/static/js/main.dc692cc2.js.map"
+    "main.62088b7d.js.map": "/sonus_app/static/js/main.62088b7d.js.map"
   },
   "entrypoints": [
-    "static/js/main.dc692cc2.js"
+    "static/js/main.62088b7d.js"
   ]
 }
