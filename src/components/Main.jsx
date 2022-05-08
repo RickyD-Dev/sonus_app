@@ -111,6 +111,14 @@ function Main() {
     // State for Pop Up. This should only come up for first time visitors:
     const [visible, setVisible] = useState(false);
 
+    function resumeHowler() {
+        if (Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
+            Howler.ctx.resume().then(() => {
+                console.log("AudioContext (should be) resumed!");
+            });
+        }
+    }
+
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -1201,17 +1209,8 @@ function Main() {
         }
     }
 
-    function resumeHowler() {
-        if (Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
-            Howler.ctx.resume().then(() => {
-                console.log("AudioContext (should be) resumed!");
-            });
-        }
-    }
-
     // This sets up the currently selected tuning from the tuning menu (Standard Tuning, Drop D, Drop C, DADGAD):
     useEffect(() => {
-        resumeHowler();
     }, [currentlySelected]);
 
     // This helps set up the name of each note of the selected tuning and sends it as the "id" for the strings within the Guitar component:
@@ -1289,18 +1288,22 @@ function Main() {
         switch (tuningName) {
 
             case "Standard Tuning":
+                resumeHowler();
                 handleCurrentSound(buttonId);
                 return ;
             
             case "Drop D":
+                resumeHowler();
                 handleCurrentSound(buttonId);
                 return ;
 
             case "Drop C":
+                resumeHowler();
                 handleCurrentSound(buttonId);
                 return ;
             
             case "DADGAD":
+                resumeHowler();
                 handleCurrentSound(buttonId);
                 return ;
 
