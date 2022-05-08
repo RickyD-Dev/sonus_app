@@ -111,14 +111,6 @@ function Main() {
     // State for Pop Up. This should only come up for first time visitors:
     const [visible, setVisible] = useState(false);
 
-    function resumeHowler() {
-        if (Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
-            Howler.ctx.resume().then(() => {
-                console.log("AudioContext (should be) resumed!");
-            });
-        }
-    }
-
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -1288,22 +1280,22 @@ function Main() {
         switch (tuningName) {
 
             case "Standard Tuning":
-                resumeHowler();
+                Howler.ctx.resume();
                 handleCurrentSound(buttonId);
                 return ;
             
             case "Drop D":
-                resumeHowler();
+                Howler.ctx.resume();
                 handleCurrentSound(buttonId);
                 return ;
 
             case "Drop C":
-                resumeHowler();
+                Howler.ctx.resume();
                 handleCurrentSound(buttonId);
                 return ;
             
             case "DADGAD":
-                resumeHowler();
+                Howler.ctx.resume();
                 handleCurrentSound(buttonId);
                 return ;
 
