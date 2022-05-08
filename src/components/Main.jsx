@@ -1280,22 +1280,18 @@ function Main() {
         switch (tuningName) {
 
             case "Standard Tuning":
-                Howler.ctx.resume();
                 handleCurrentSound(buttonId);
                 return ;
             
             case "Drop D":
-                Howler.ctx.resume();
                 handleCurrentSound(buttonId);
                 return ;
 
             case "Drop C":
-                Howler.ctx.resume();
                 handleCurrentSound(buttonId);
                 return ;
             
             case "DADGAD":
-                Howler.ctx.resume();
                 handleCurrentSound(buttonId);
                 return ;
 
@@ -1338,7 +1334,6 @@ function Main() {
                         tuneID5={stringKey[4].name}
                         tuneID6={stringKey[5].name}
                         onClick={handleSound}
-                        onTouchEnd={handleSound}
                     />
                 </section>
 

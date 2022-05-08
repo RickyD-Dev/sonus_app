@@ -4,6 +4,14 @@ import { Howl } from "howler";
 function MakeSound(source, string) {
     function isPlaying() {
     //     --Below works great to fire a function while sound is playing--
+        if (Howler.ctx && Howler.ctx.state == "suspended") {
+            Howler.ctx.resume();
+        }
+        
+        if (Howler.ctx && Howler.ctx.state == "interrupted") {
+            Howler.ctx.resume();
+        }
+        
         if (sound.playing()) {
             if (string.current === false) {
                 sound.stop();
