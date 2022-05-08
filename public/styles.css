@@ -719,6 +719,13 @@ footer {
     height: 50px;
 }
 
+@media only screen and (min-height: 785px) {
+    footer {
+        position: absolute;
+        overflow: hidden;
+    }
+}
+
 .footer-div {
     display: flex;
     justify-content: center;
@@ -756,7 +763,7 @@ footer {
     transition: color 0.3s ease-in-out;
 }
 
-@media only screen and (orientation: landscape)and (min-height: 50px) and (max-height: 665px) {
+@media only screen and (orientation: landscape) and (min-height: 50px) and (max-height: 665px) {
     .main-container {
         height: 100%;
         max-width: 100%;

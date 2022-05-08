@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { Howler } from "howler";
 import Guitar from "./Guitar";
 import Looper from "./Looper";
 import MakeSound from "./MakeSound";
@@ -34,6 +35,7 @@ import dadgad_D from "./sounds/DADGAD/DADGAD_D_String.wav";
 import dadgad_G from "./sounds/DADGAD/DADGAD_G_String.wav";
 import dadgad_A from "./sounds/DADGAD/DADGAD_A_String.wav";
 import dadgad_HighD from "./sounds/DADGAD/DADGAD_HighD_String.wav";
+import { Howl } from "howler";
 
 function Main() {
 
@@ -1199,8 +1201,17 @@ function Main() {
         }
     }
 
+    function resumeHowler() {
+        if (Howler.ctx && Howler.ctx.state === "suspended") {
+            Howler.ctx.resume().then(() => {
+                console.log("AudioContext (should be) resumed!");
+            });
+        }
+    }
+
     // This sets up the currently selected tuning from the tuning menu (Standard Tuning, Drop D, Drop C, DADGAD):
     useEffect(() => {
+        resumeHowler();
     }, [currentlySelected]);
 
     // This helps set up the name of each note of the selected tuning and sends it as the "id" for the strings within the Guitar component:
@@ -1325,6 +1336,13 @@ function Main() {
                         fourthStringChosen={fourthStringChosen}
                         fifthStringChosen={fifthStringChosen}
                         sixthStringChosen={sixthStringChosen}
+                        tuneID1={stringKey[0].name}
+                        tuneID2={stringKey[1].name}
+                        tuneID3={stringKey[2].name}
+                        tuneID4={stringKey[3].name}
+                        tuneID5={stringKey[4].name}
+                        tuneID6={stringKey[5].name}
+                        onClick={handleSound}
                     />
                 </section>
 
