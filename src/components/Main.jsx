@@ -1338,6 +1338,7 @@ function Main() {
                         tuneID5={stringKey[4].name}
                         tuneID6={stringKey[5].name}
                         onClick={handleSound}
+                        onTouchEnd={handleSound}
                     />
                 </section>
 
