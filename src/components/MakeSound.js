@@ -1,4 +1,4 @@
-import { Howl } from "howler";
+import { Howler, Howl } from "howler";
 
 
 function MakeSound(source, string) {
