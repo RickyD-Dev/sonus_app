@@ -13,7 +13,9 @@ function MakeSound(source, string) {
     }
     const sound = new Howl({
         src: [source],
-        onplay: isPlaying
+        onplay: isPlaying,
+        autoUnlock: true,
+        autoSuspend: false
     });
 
     return sound;

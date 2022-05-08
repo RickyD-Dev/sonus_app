@@ -1202,7 +1202,7 @@ function Main() {
     }
 
     function resumeHowler() {
-        if (Howler.ctx && Howler.ctx.state === "suspended") {
+        if (Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
             Howler.ctx.resume().then(() => {
                 console.log("AudioContext (should be) resumed!");
             });
