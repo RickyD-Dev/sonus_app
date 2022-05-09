@@ -357,6 +357,8 @@ hr {
 }
 
 .notes {
+    border: none;
+    background: none;
     color: rgba(255,255,255);
     font-family: 'Oswald', sans-serif;
     font-weight: 300;
@@ -366,6 +368,8 @@ hr {
 }
 
 .notes--active {
+    border: none;
+    background: none;
     color: rgb(95, 255, 240);
     font-family: 'Oswald', sans-serif;
     font-weight: 300;
