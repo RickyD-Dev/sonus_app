@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Howler } from "howler";
 import Guitar from "./Guitar";
 import Looper from "./Looper";
 import MakeSound from "./MakeSound";
@@ -35,7 +34,6 @@ import dadgad_D from "./sounds/DADGAD/DADGAD_D_String.wav";
 import dadgad_G from "./sounds/DADGAD/DADGAD_G_String.wav";
 import dadgad_A from "./sounds/DADGAD/DADGAD_A_String.wav";
 import dadgad_HighD from "./sounds/DADGAD/DADGAD_HighD_String.wav";
-import { Howl } from "howler";
 
 function Main() {
 
