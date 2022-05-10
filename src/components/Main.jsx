@@ -5,6 +5,7 @@ import MakeSound from "./MakeSound";
 import TuningMenu from "./TuningMenu";
 import TuningSelection from "./TuningSelection";
 import Tips from "./Tips";
+import { Howler } from "howler";
 
 // Standard Tuning Sound Imports:
 import Standard_LowE from "./sounds/Standard/Standard_LowE_String.wav";
@@ -159,8 +160,12 @@ function Main() {
     // If Loop button is turned OFF during a loop sequence, it will stop the current sound playing entirely. Then strings can be played as normal.
     function handleStringOptions(sound, loopRef, setFunc) {
         sound.play();
+        sound.on("play", () => {
+            console.log("Playing.");
+        });
         sound.on("end", () => {
             setFunc(false);
+            console.log("Finished playing.");
             if (loopRef.current === true) {
                 sound.on("play", () => {
                     setFunc(true);
@@ -395,6 +400,9 @@ function Main() {
                     setFirstString(true);
 
                     handleStringOptions(standardLowE, looped, setFirstString);
+                    console.log("String One is currently: " + stringOne.current);
+                    console.log("Howler ctx is currently: " + Howler.ctx);
+                    console.log("Howler ctx state is currently: " + Howler.ctx.state);
                 } else if (param === "A" && looped.current === false) {
                     setFirstString(false);
                     setThirdString(false);
