@@ -401,7 +401,7 @@ function Main() {
 
                     handleStringOptions(standardLowE, looped, setFirstString);
                     console.log("String One is currently: " + stringOne.current);
-                    console.log("Howler ctx is currently: " + Howler.ctx);
+                    console.log("Standard Low E: " + standardLowE);
                     console.log("Howler ctx state is currently: " + Howler.ctx.state);
                 } else if (param === "A" && looped.current === false) {
                     setFirstString(false);
