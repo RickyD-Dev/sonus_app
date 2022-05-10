@@ -35,7 +35,6 @@ import dadgad_D from "./sounds/DADGAD/DADGAD_D_String.wav";
 import dadgad_G from "./sounds/DADGAD/DADGAD_G_String.wav";
 import dadgad_A from "./sounds/DADGAD/DADGAD_A_String.wav";
 import dadgad_HighD from "./sounds/DADGAD/DADGAD_HighD_String.wav";
-import { Howl } from "howler";
 
 function Main() {
 
@@ -147,6 +146,16 @@ function Main() {
         stringChangeNow(stringFour);
         stringChangeNow(stringFive);
         stringChangeNow(stringSix);
+    }
+
+    function checkHowlerCtx() {
+        console.log("Touch Start began.");
+        console.log("This is the Howler ctx state over HERE: " + Howler.ctx.state);
+        if (Howler.ctx.state === "suspended") {
+            Howler.ctx.resume().then(() => {
+                console.log("Howler ctx SHOULD be resumed: " + Howler.ctx.state);
+            });
+        }
     }
 
     // This function handles the logic for each string.
@@ -1309,7 +1318,7 @@ function Main() {
     }
 
     return (
-        <div className={currentlySelected.name === "Standard Tuning" ? "App-Container-Standard" : currentlySelected.name === "Drop D" ? "App-Container-DropD" : currentlySelected.name === "Drop C" ? "App-Container-DropC" : currentlySelected.name === "DADGAD" ? "App-Container-DADGAD" : null}>
+        <div onTouchStart={checkHowlerCtx} className={currentlySelected.name === "Standard Tuning" ? "App-Container-Standard" : currentlySelected.name === "Drop D" ? "App-Container-DropD" : currentlySelected.name === "Drop C" ? "App-Container-DropC" : currentlySelected.name === "DADGAD" ? "App-Container-DADGAD" : null}>
             <div className="main-container">
                 <header>
                     <div className="app-title-container">
