@@ -35,6 +35,7 @@ import dadgad_D from "./sounds/DADGAD/DADGAD_D_String.wav";
 import dadgad_G from "./sounds/DADGAD/DADGAD_G_String.wav";
 import dadgad_A from "./sounds/DADGAD/DADGAD_A_String.wav";
 import dadgad_HighD from "./sounds/DADGAD/DADGAD_HighD_String.wav";
+import { Howl } from "howler";
 
 function Main() {
 
@@ -159,18 +160,12 @@ function Main() {
     // If Loop button is ON, it will allow the sound to play over & over. It will check if Loop is still ON after the sound reaches the end once again.
     // If Loop button is turned OFF during a loop sequence, it will stop the current sound playing entirely. Then strings can be played as normal.
     function handleStringOptions(sound, loopRef, setFunc) {
-        if (Howler.ctx && Howler.ctx.state && AudioContext === "suspended") {
-            Howler.ctx.resume().then(() => {
-                sound.play();
-            });
-        } else {
-            sound.play();
-            console.log(Howler.ctx.state);
-        }
-
         sound.on("play", () => {
             console.log("Playing.");
         });
+
+        sound.play();
+
         sound.on("end", () => {
             setFunc(false);
             console.log("Finished playing.");
@@ -182,6 +177,15 @@ function Main() {
             }
         });
     }
+
+    useEffect(() => {
+        console.log("This is the Howler ctx state over HERE: " + Howler.ctx.state);
+        if (Howler.ctx.state === "suspended") {
+            Howler.ctx.resume().then(() => {
+                console.log("Howler ctx SHOULD be resumed: " + Howler.ctx.state);
+            })
+        }
+    }, [Howler.ctx.state]);
 
     // When true, the sounds are allowed to play. When false, the sound stops.
     const stringOne = useRef(true);
