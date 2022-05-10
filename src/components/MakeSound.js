@@ -15,6 +15,12 @@ function MakeSound(source, string) {
     const sound = new Howl({
         src: [source],
         onplay: isPlaying,
+        onloaderror(id, err) {
+            console.warn('failed to load sound file:', { id, err });
+        },
+        onplayerror(id, err) {
+            console.warn('failed to load sound file:', { id, err });
+        },
         autoUnlock: true,
         autoSuspend: false
     });
