@@ -4,7 +4,7 @@ import { Howler, Howl } from "howler";
 function MakeSound(source, string) {
     function checkHowlerCtx() {
         if (Howler.ctx.state == "suspended") {
-            Howler.ctx.resume().then(() => {
+            Howler.ctx.resume().then(function isPlaying() {
                 //     --Below works great to fire a function while sound is playing--    
                     if (sound.playing()) {
                         if (string.current === false) {
