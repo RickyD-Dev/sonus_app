@@ -161,6 +161,14 @@ function Main() {
     // If Loop button is ON, it will allow the sound to play over & over. It will check if Loop is still ON after the sound reaches the end once again.
     // If Loop button is turned OFF during a loop sequence, it will stop the current sound playing entirely. Then strings can be played as normal.
     function handleStringOptions(sound, loopRef, setFunc) {
+        const test = () => {
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioContext = new AudioContext();
+            console.log(audioContext.state); //suspended
+            audioContext.resume();
+            audioContext.onstatechange = () => console.log(audioContext.state); // running
+        }
+
         sound.on("play", () => {
             // sound.once("unlock", () => {
             //     console.log("I'm unlocked.");
@@ -172,9 +180,7 @@ function Main() {
         sound.on("end", () => {
             setFunc(false);
             console.log("Finished playing.");
-            sound.unload();
             console.log(sound.state());
-            Howler.ctx.suspend();
             if (loopRef.current === true) {
                 sound.on("play", () => {
                     setFunc(true);
@@ -185,6 +191,7 @@ function Main() {
 
         if (Howler.ctx.state === "suspended") {
             console.log(Howler.ctx.state);
+            test();
             Howler.ctx.resume().then(() => {
                 console.log(Howler.ctx.state);
                 sound.play();
