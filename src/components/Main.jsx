@@ -163,7 +163,7 @@ function Main() {
     function handleStringOptions(sound, loopRef, setFunc) {
         const test = () => {
             window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioContext = new AudioContext();
+            const audioContext = new AudioContext();
             console.log(audioContext.state); //suspended
             audioContext.resume();
             audioContext.onstatechange = () => console.log(audioContext.state); // running
