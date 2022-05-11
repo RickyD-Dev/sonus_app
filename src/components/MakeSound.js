@@ -2,6 +2,17 @@ import { Howl } from "howler";
 
 
 function MakeSound(source, string) {
+    function checkHowlState() {
+        const stateOfSound = sound.state();
+        if (stateOfSound == "loaded") {
+            console.log("I HAVE BEEN LOADED");
+        }
+
+        if (stateOfSound == "unloaded") {
+            console.log("I have been unloaded!!");
+        }
+    }
+
     function isPlaying() {
     //     --Below works great to fire a function while sound is playing--    
         if (sound.playing()) {
@@ -14,12 +25,15 @@ function MakeSound(source, string) {
 
     const sound = new Howl({
         src: [source],
+        onload: checkHowlState,
         onplay: isPlaying,
         onloaderror(id, err) {
-            console.warn('failed to load sound file:', { id, err });
+            checkHowlState();
+            console.log('failed to load sound file:', { id, err });
         },
         onplayerror(id, err) {
-            console.warn('failed to load sound file:', { id, err });
+            checkHowlState();
+            console.log('failed to play sound file:', { id, err });
         },
         autoUnlock: true,
         autoSuspend: false
