@@ -165,6 +165,13 @@ function Main() {
 
         sound.play();
 
+        sound.on("playerror", () => {
+            console.log("There has been a play error.");
+            sound.once("unlock", () => {
+                sound.play();
+            });
+        });
+
         sound.on("end", () => {
             setFunc(false);
             console.log("Finished playing.");
@@ -175,6 +182,10 @@ function Main() {
                 sound.play();
             }
         });
+    }
+
+    function checkState() {
+        console.log(standardLowE.state());
     }
 
     // When true, the sounds are allowed to play. When false, the sound stops.
@@ -1312,7 +1323,7 @@ function Main() {
             <div className="main-container">
                 <header>
                     <div className="app-title-container">
-                        <h1 className="app-title">Sonus</h1>
+                        <h1 onClick={checkState} className="app-title">Sonus</h1>
                     </div>
                 </header>
 
