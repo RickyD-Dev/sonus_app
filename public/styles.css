@@ -84,7 +84,6 @@ hr {
 
 .App-Container-Standard {
     background-color:rgba(0, 25, 63, 0.2);
-    border: 1px solid green;
     display: flex;
     flex-direction: column;
     justify-content: center;
