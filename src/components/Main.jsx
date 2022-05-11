@@ -110,6 +110,8 @@ function Main() {
     // State for Pop Up. This should only come up for first time visitors:
     const [visible, setVisible] = useState(false);
 
+    const howlerState = Howler.ctx;
+
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -168,6 +170,20 @@ function Main() {
             //     console.log("I'm unlocked.");
             // });
             console.log("Playing.");
+            console.log(sound.state());
+        });
+
+        sound.on("end", () => {
+            setFunc(false);
+            console.log("Finished playing.");
+            sound.unload();
+            console.log(sound.state());
+            if (loopRef.current === true) {
+                sound.on("play", () => {
+                    setFunc(true);
+                });
+                sound.play();
+            }
         });
 
         sound.play();
@@ -177,17 +193,6 @@ function Main() {
             sound.once("unlock", () => {
                 sound.play();
             });
-        });
-
-        sound.on("end", () => {
-            setFunc(false);
-            console.log("Finished playing.");
-            if (loopRef.current === true) {
-                sound.on("play", () => {
-                    setFunc(true);
-                });
-                sound.play();
-            }
         });
     }
 
@@ -1293,32 +1298,36 @@ function Main() {
         }
     }, [visible]);
 
-    useEffect(() => {
-        standardLowE.load();
-        standardA.load();
-        standardD.load();
-        standardG.load();
-        standardB.load();
-        standardHighE.load();
-        dropDLowD.load();
-        dropDA.load();
-        dropDD.load();
-        dropDG.load();
-        dropDB.load();
-        dropDHighE.load();
-        dropCLowC.load();
-        dropCg.load();
-        dropCc.load();
-        dropCf.load();
-        dropCa.load();
-        dropCHighD.load();
-        dadgadLowD.load();
-        dadgadLowA.load();
-        dadgadD.load();
-        dadgadG.load();
-        dadgadA.load();
-        dadgadHighD.load();
-    });
+    // useEffect(() => {
+    //     standardLowE.load();
+    //     standardLowE.once("load", () => {
+    //         console.log("standardLowE loaded.");
+    //     });
+    //     standardA.load();
+    //     standardD.load();
+    //     standardG.load();
+    //     standardB.load();
+    //     standardHighE.load();
+    //     dropDLowD.load();
+    //     dropDA.load();
+    //     dropDD.load();
+    //     dropDG.load();
+    //     dropDB.load();
+    //     dropDHighE.load();
+    //     dropCLowC.load();
+    //     dropCg.load();
+    //     dropCc.load();
+    //     dropCf.load();
+    //     dropCa.load();
+    //     dropCHighD.load();
+    //     dadgadLowD.load();
+    //     dadgadLowA.load();
+    //     dadgadD.load();
+    //     dadgadG.load();
+    //     dadgadA.load();
+    //     dadgadHighD.load();
+    //     console.log(standardLowE.state());
+    // });
 
     // Handles whether the initial welcome pop-up is visible (when set to true) or not (when set to false):
     function handlePopUp() {

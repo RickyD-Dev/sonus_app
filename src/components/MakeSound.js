@@ -14,11 +14,7 @@ function MakeSound(source, string) {
 
     const sound = new Howl({
         src: [source],
-        preload: false,
         onplay: isPlaying,
-        onend: () => {
-            sound.unload();
-        },
         onunload: () => {
             console.log(sound + " has NOW been UNloaded.");
         },
