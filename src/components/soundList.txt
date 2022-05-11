@@ -1,0 +1,31 @@
+// Standard Sounds:
+standardLowE
+standardA
+standardD
+standardG
+standardB
+standardHighE
+
+// Drop D Sounds:
+dropDLowD
+dropDA
+dropDD
+dropDG
+dropDB
+dropDHighE
+
+// Drop C Sounds:
+dropCLowC
+dropCg
+dropCc
+dropCf
+dropCa
+dropCHighD
+
+// DADGAD Sounds:
+dadgadLowD
+dadgadLowA
+dadgadD
+dadgadG
+dadgadA
+dadgadHighD

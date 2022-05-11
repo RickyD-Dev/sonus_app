@@ -159,7 +159,14 @@ function Main() {
     // If Loop button is ON, it will allow the sound to play over & over. It will check if Loop is still ON after the sound reaches the end once again.
     // If Loop button is turned OFF during a loop sequence, it will stop the current sound playing entirely. Then strings can be played as normal.
     function handleStringOptions(sound, loopRef, setFunc) {
+        sound.on("load", () => {
+            console.log("I have been loaded.");
+        });
+
         sound.on("play", () => {
+            // sound.once("unlock", () => {
+            //     console.log("I'm unlocked.");
+            // });
             console.log("Playing.");
         });
 
@@ -1285,6 +1292,33 @@ function Main() {
             return null;
         }
     }, [visible]);
+
+    useEffect(() => {
+        standardLowE.load();
+        standardA.load();
+        standardD.load();
+        standardG.load();
+        standardB.load();
+        standardHighE.load();
+        dropDLowD.load();
+        dropDA.load();
+        dropDD.load();
+        dropDG.load();
+        dropDB.load();
+        dropDHighE.load();
+        dropCLowC.load();
+        dropCg.load();
+        dropCc.load();
+        dropCf.load();
+        dropCa.load();
+        dropCHighD.load();
+        dadgadLowD.load();
+        dadgadLowA.load();
+        dadgadD.load();
+        dadgadG.load();
+        dadgadA.load();
+        dadgadHighD.load();
+    });
 
     // Handles whether the initial welcome pop-up is visible (when set to true) or not (when set to false):
     function handlePopUp() {
