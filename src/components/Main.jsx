@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import selection from "./selection";
 import { createStandard, createDropD, createDropC, createDADGAD } from "./createSound";
+import handleStringOptions from "./handleStringOptions";
 import Guitar from "./Guitar";
 import Looper from "./Looper";
 import TuningMenu from "./TuningMenu";
@@ -8,6 +9,9 @@ import TuningSelection from "./TuningSelection";
 import Tips from "./Tips";
 
 function Main() {
+    // Helps keep the sound playing even if iPhone Mute Switch is on (of course this still needs the user to initiate the sound!):
+    const unmuteAudio = require("unmute-ios-audio");
+    unmuteAudio();
 
     // State of the currently selected tuning which is pulled from the "selection" object. Default is "Standard Tuning":
     const [currentlySelected, setCurrentlySelected] = useState(selection[0]);
@@ -22,9 +26,21 @@ function Main() {
     // State for Pop Up. This should only come up for first time visitors:
     const [visible, setVisible] = useState(false);
 
-    const unmuteAudio = require("unmute-ios-audio");
+    // State of string style that allows string to light up when clicked/tapped. When true, the string will light up. When false, the string goes back to default style:
+    const [firstStringChosen, setFirstString] = useState(false);
+    const [secondStringChosen, setSecondString] = useState(false);
+    const [thirdStringChosen, setThirdString] = useState(false);
+    const [fourthStringChosen, setFourthString] = useState(false);
+    const [fifthStringChosen, setFifthString] = useState(false);
+    const [sixthStringChosen, setSixthString] = useState(false);
 
-    unmuteAudio();
+    // When true, the sounds are allowed to play. When false, the sounds stop.
+    const stringOne = useRef(true);
+    const stringTwo = useRef(true);
+    const stringThree = useRef(true);
+    const stringFour = useRef(true);
+    const stringFive = useRef(true);
+    const stringSix = useRef(true);
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -44,103 +60,25 @@ function Main() {
     const handleLoopAction = () => {
         looped.current = !looped.current;
         setChecked(!checked);
-        changeStringStatus(stringOne);
-        changeStringStatus(stringTwo);
-        changeStringStatus(stringThree);
-        changeStringStatus(stringFour);
-        changeStringStatus(stringFive);
-        changeStringStatus(stringSix);
-        setFirstString(false);
-        setSecondString(false);
-        setThirdString(false);
-        setFourthString(false);
-        setFifthString(false);
-        setSixthString(false);
         stringChangeNow(stringOne);
         stringChangeNow(stringTwo);
         stringChangeNow(stringThree);
         stringChangeNow(stringFour);
         stringChangeNow(stringFive);
         stringChangeNow(stringSix);
+        setFirstString(false);
+        setSecondString(false);
+        setThirdString(false);
+        setFourthString(false);
+        setFifthString(false);
+        setSixthString(false);
+        changeStringStatus(stringOne);
+        changeStringStatus(stringTwo);
+        changeStringStatus(stringThree);
+        changeStringStatus(stringFour);
+        changeStringStatus(stringFive);
+        changeStringStatus(stringSix);
     }
-
-    // This function handles the logic for each string.
-    // --- It takes 3 parameters: 
-    // 1. The actual sound (example: standardLowE),
-    // 2. The loop ref to see if true/false (example: looped),
-    // 3. The setString function to change the state of the const responsible for letting the string light up or not (example: setFirstString),
-    // 4. The string parameter is tied to the string refs (stringOne, stringTwo, etc.)
-    // --- When executed:
-    // Allows the sound to play first and logs that it is indeed playing in the console.
-    // Once the sound reaches the end, it will log that it is finished and then it'll decided what to do depending on whether the Loop button is ON (looped.current set to true) or OFF (looped.current set to false).
-    // If Loop button is ON, it will allow the sound to play over & over. It will check if Loop is still ON after the sound reaches the end once again.
-    // If Loop button is turned OFF during a loop sequence, it will stop the current sound playing entirely. Then strings can be played as normal.
-    function handleStringOptions(sound, loopRef, setFunc, string) {
-
-        function isPlaying() {
-        //     --Below works great to fire a function while sound is playing--    
-            if (sound.playing()) {
-                if (string.current === false) {
-                    sound.stop();
-                }
-                setTimeout(isPlaying, 200);
-            }
-        }
-
-        function windowIsOpen() {
-                if (sound.playing()) {
-                    if (document.visibilityState === "hidden") {
-                        console.log("Window hidden.");
-                        sound.stop();
-                    }
-                    setTimeout(windowIsOpen, 200);
-                }
-            }
-
-        sound.on("play", () => {
-            windowIsOpen();
-            isPlaying();
-        });
-
-        sound.on("end", () => {
-            setFunc(false);
-            console.log("Finished playing.");
-            if (loopRef.current === true) {
-                sound.on("play", () => {
-                    setFunc(true);
-                });
-                if (!sound.playing()){
-                    sound.play();
-                }
-            }
-        });
-
-        if (document.visibilityState === "visible") {
-            sound.play();
-        }
-
-        // if (Howler.ctx.state === "suspended") {
-        //     console.log(Howler.ctx.state);
-        //     test();
-        //     Howler.ctx.resume().then(() => {
-        //         console.log(Howler.ctx.state);
-        //         sound.play();
-        //     });
-        // }
-
-        // if (Howler.ctx.state === "running") {
-        //     console.log(Howler.ctx.state);
-        //     sound.play();
-        // }
-    }
-
-    // When true, the sounds are allowed to play. When false, the sound stops.
-    const stringOne = useRef(true);
-    const stringTwo = useRef(true);
-    const stringThree = useRef(true);
-    const stringFour = useRef(true);
-    const stringFive = useRef(true);
-    const stringSix = useRef(true);
 
     // Depending on the tuning that is currently selected (which will be checked by the switch statement), this function will execute commands depending on which string was clicked/tapped. It handles a set of commands for when the Loop is on and another set for when the Loop is off.
     function handleCurrentSound(param) {
@@ -1069,14 +1007,6 @@ function Main() {
                     return ;
         }
     }
-    
-    // State of string style that allows string to light up when clicked/tapped. When true, the string will light up. When false, the string goes back to default style:
-    const [firstStringChosen, setFirstString] = useState(false);
-    const [secondStringChosen, setSecondString] = useState(false);
-    const [thirdStringChosen, setThirdString] = useState(false);
-    const [fourthStringChosen, setFourthString] = useState(false);
-    const [fifthStringChosen, setFifthString] = useState(false);
-    const [sixthStringChosen, setSixthString] = useState(false);
 
     // Handles Nav-Menu Toggle:
     function handleToggle() {
