@@ -23,6 +23,10 @@ function Main() {
     // State for Pop Up. This should only come up for first time visitors:
     const [visible, setVisible] = useState(false);
 
+    const unmuteAudio = require("unmute-ios-audio");
+
+    unmuteAudio();
+
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -1233,7 +1237,7 @@ function Main() {
             <div className="main-container">
                 <header>
                     <div className="app-title-container">
-                        <h1 onClick={checkTheSound} className="app-title">Sonus</h1>
+                        <h1 className="app-title">Sonus</h1>
                     </div>
                 </header>
 
