@@ -1,101 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
+import selection from "./selection";
+import { createStandard, createDropD, createDropC, createDADGAD } from "./createSound";
 import Guitar from "./Guitar";
 import Looper from "./Looper";
-import MakeSound from "./MakeSound";
 import TuningMenu from "./TuningMenu";
 import TuningSelection from "./TuningSelection";
 import Tips from "./Tips";
 import { Howler } from "howler";
 
-// Standard Tuning Sound Imports:
-import Standard_LowE from "./sounds/Standard/Standard_LowE_String.wav";
-import Standard_A from "./sounds/Standard/Standard_A_String.wav";
-import Standard_D from "./sounds/Standard/Standard_D_String.wav";
-import Standard_G from "./sounds/Standard/Standard_G_String.wav";
-import Standard_B from "./sounds/Standard/Standard_B_String.wav";
-import Standard_HighE from "./sounds/Standard/Standard_HighE_String.wav";
-// Drop D Sound Imports:
-import DropD_LowD from "./sounds/DropD/DropD_LowD_String.wav";
-import DropD_A from "./sounds/DropD/DropD_A_String.wav";
-import DropD_D from "./sounds/DropD/DropD_D_String.wav";
-import DropD_G from "./sounds/DropD/DropD_G_String.wav";
-import DropD_B from "./sounds/DropD/DropD_B_String.wav";
-import DropD_HighE from "./sounds/DropD/DropD_HighE_String.wav";
-// Drop C Sound Imports:
-import DropC_LowC from "./sounds/DropC/DropC_LowC_String.wav";
-import DropC_G from "./sounds/DropC/DropC_G_String.wav";
-import DropC_C from "./sounds/DropC/DropC_C_String.wav";
-import DropC_F from "./sounds/DropC/DropC_F_String.wav";
-import DropC_A from "./sounds/DropC/DropC_A_String.wav";
-import DropC_HighD from "./sounds/DropC/DropC_HighD_String.wav";
-// DADGAD Sound Imports:
-import dadgad_LowD from "./sounds/DADGAD/DADGAD_LowD_String.wav";
-import dadgad_LowA from "./sounds/DADGAD/DADGAD_LowA_String.wav";
-import dadgad_D from "./sounds/DADGAD/DADGAD_D_String.wav";
-import dadgad_G from "./sounds/DADGAD/DADGAD_G_String.wav";
-import dadgad_A from "./sounds/DADGAD/DADGAD_A_String.wav";
-import dadgad_HighD from "./sounds/DADGAD/DADGAD_HighD_String.wav";
-
 function Main() {
-
-    const selection = [
-        {
-            id: 0,
-            name: "Standard Tuning",
-            className: ["standard-tuning","standard-tuning--notActive"],
-            tuningList: ["E ","A ","D ","G ","B ","E "],
-            tuningNotes: [
-                {name: "Low E", sound: Standard_LowE},
-                {name: "A", sound: Standard_A},
-                {name: "D", sound: Standard_D},
-                {name: "G", sound: Standard_G},
-                {name: "B", sound: Standard_B},
-                {name: "High E", sound: Standard_HighE}
-            ]
-        },
-        {
-            id: 1,
-            name: "Drop D",
-            className: ["dropD-tuning","dropD-tuning--notActive"],
-            tuningList: ["D ","A ","D ","G ","B ","E "],
-            tuningNotes: [
-                {name: "Low D", sound: DropD_LowD},
-                {name: "A", sound: DropD_A},
-                {name: "D", sound: DropD_D},
-                {name: "G", sound: DropD_G},
-                {name: "B", sound: DropD_B},
-                {name: "High E", sound: DropD_HighE}
-            ]
-        },
-        {
-            id: 2,
-            name: "Drop C",
-            className: ["dropC-tuning","dropC-tuning--notActive"],
-            tuningList: ["C ","G ","C ","F ","A ","D "],
-            tuningNotes: [
-                {name: "Low C", sound: DropC_LowC},
-                {name: "G", sound: DropC_G},
-                {name: "C", sound: DropC_C},
-                {name: "F", sound: DropC_F},
-                {name: "A", sound: DropC_A},
-                {name: "High D", sound: DropC_HighD}
-            ],
-        },
-        {
-            id: 3,
-            name: "DADGAD",
-            className: ["dadgad-tuning","dadgad-tuning--notActive"],
-            tuningList: ["D ","A ","D ","G ","A ","D "],
-            tuningNotes: [
-                {name: "Low D", sound: dadgad_LowD},
-                {name: "Low A", sound: dadgad_LowA},
-                {name: "D", sound: dadgad_D},
-                {name: "G", sound: dadgad_G},
-                {name: "A", sound: dadgad_A},
-                {name: "High D", sound: dadgad_HighD}
-            ]
-        },
-    ];
 
     // State of the currently selected tuning which is pulled from the "selection" object. Default is "Standard Tuning":
     const [currentlySelected, setCurrentlySelected] = useState(selection[0]);
@@ -109,8 +22,6 @@ function Main() {
     const [checked, setChecked] = useState(false);
     // State for Pop Up. This should only come up for first time visitors:
     const [visible, setVisible] = useState(false);
-
-    const howlerState = Howler.ctx;
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -155,25 +66,26 @@ function Main() {
     // 1. The actual sound (example: standardLowE),
     // 2. The loop ref to see if true/false (example: looped),
     // 3. The setString function to change the state of the const responsible for letting the string light up or not (example: setFirstString),
+    // 4. The string parameter is tied to the string refs (stringOne, stringTwo, etc.)
     // --- When executed:
     // Allows the sound to play first and logs that it is indeed playing in the console.
     // Once the sound reaches the end, it will log that it is finished and then it'll decided what to do depending on whether the Loop button is ON (looped.current set to true) or OFF (looped.current set to false).
     // If Loop button is ON, it will allow the sound to play over & over. It will check if Loop is still ON after the sound reaches the end once again.
     // If Loop button is turned OFF during a loop sequence, it will stop the current sound playing entirely. Then strings can be played as normal.
-    function handleStringOptions(sound, loopRef, setFunc) {
-        const test = () => {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            const audioContext = new AudioContext();
-            console.log(audioContext.state); //suspended
-            audioContext.resume();
-            audioContext.onstatechange = () => console.log(audioContext.state); // running
+    function handleStringOptions(sound, loopRef, setFunc, string) {
+
+        function isPlaying() {
+        //     --Below works great to fire a function while sound is playing--    
+            if (sound.playing()) {
+                if (string.current === false) {
+                    sound.stop();
+                }
+                setTimeout(isPlaying, 200);
+            }
         }
 
         sound.on("play", () => {
-            // sound.once("unlock", () => {
-            //     console.log("I'm unlocked.");
-            // });
-            console.log("Playing.");
+            isPlaying();
             console.log(sound.state());
         });
 
@@ -185,34 +97,31 @@ function Main() {
                 sound.on("play", () => {
                     setFunc(true);
                 });
-                sound.play();
+                if (!sound.playing()){
+                    sound.play();
+                }
             }
         });
 
-        if (Howler.ctx.state === "suspended") {
-            console.log(Howler.ctx.state);
-            test();
-            Howler.ctx.resume().then(() => {
-                console.log(Howler.ctx.state);
-                sound.play();
-            });
-        }
+        sound.play();
 
-        if (Howler.ctx.state === "running") {
-            console.log(Howler.ctx.state);
-            sound.play();
-        }
+        // if (Howler.ctx.state === "suspended") {
+        //     console.log(Howler.ctx.state);
+        //     test();
+        //     Howler.ctx.resume().then(() => {
+        //         console.log(Howler.ctx.state);
+        //         sound.play();
+        //     });
+        // }
 
-        sound.on("playerror", () => {
-            console.log("There has been a play error.");
-            sound.once("unlock", () => {
-                sound.play();
-            });
-        });
+        // if (Howler.ctx.state === "running") {
+        //     console.log(Howler.ctx.state);
+        //     sound.play();
+        // }
     }
 
-    function checkState() {
-        console.log(standardLowE.state());
+    function checkTheSound() {
+        console.log(createStandard[0]);
     }
 
     // When true, the sounds are allowed to play. When false, the sound stops.
@@ -222,38 +131,6 @@ function Main() {
     const stringFour = useRef(true);
     const stringFive = useRef(true);
     const stringSix = useRef(true);
-
-    // Standard Sounds:
-    const standardLowE = MakeSound(selection[0].tuningNotes[0].sound, stringOne);
-    const standardA = MakeSound(selection[0].tuningNotes[1].sound, stringTwo);
-    const standardD = MakeSound(selection[0].tuningNotes[2].sound, stringThree);
-    const standardG = MakeSound(selection[0].tuningNotes[3].sound, stringFour);
-    const standardB = MakeSound(selection[0].tuningNotes[4].sound, stringFive);
-    const standardHighE = MakeSound(selection[0].tuningNotes[5].sound, stringSix);
-
-    // Drop D Sounds:
-    const dropDLowD = MakeSound(selection[1].tuningNotes[0].sound, stringOne);
-    const dropDA = MakeSound(selection[1].tuningNotes[1].sound, stringTwo);
-    const dropDD = MakeSound(selection[1].tuningNotes[2].sound, stringThree);
-    const dropDG = MakeSound(selection[1].tuningNotes[3].sound, stringFour);
-    const dropDB = MakeSound(selection[1].tuningNotes[4].sound, stringFive);
-    const dropDHighE = MakeSound(selection[1].tuningNotes[5].sound, stringSix);
-
-    // Drop C Sounds:
-    const dropCLowC = MakeSound(selection[2].tuningNotes[0].sound, stringOne);
-    const dropCg = MakeSound(selection[2].tuningNotes[1].sound, stringTwo);
-    const dropCc = MakeSound(selection[2].tuningNotes[2].sound, stringThree);
-    const dropCf = MakeSound(selection[2].tuningNotes[3].sound, stringFour);
-    const dropCa = MakeSound(selection[2].tuningNotes[4].sound, stringFive);
-    const dropCHighD = MakeSound(selection[2].tuningNotes[5].sound, stringSix);
-
-    // DADGAD Sounds:
-    const dadgadLowD = MakeSound(selection[3].tuningNotes[0].sound, stringOne);
-    const dadgadLowA = MakeSound(selection[3].tuningNotes[1].sound, stringTwo);
-    const dadgadD = MakeSound(selection[3].tuningNotes[2].sound, stringThree);
-    const dadgadG = MakeSound(selection[3].tuningNotes[3].sound, stringFour);
-    const dadgadA = MakeSound(selection[3].tuningNotes[4].sound, stringFive);
-    const dadgadHighD = MakeSound(selection[3].tuningNotes[5].sound, stringSix);
 
     // Depending on the tuning that is currently selected (which will be checked by the switch statement), this function will execute commands depending on which string was clicked/tapped. It handles a set of commands for when the Loop is on and another set for when the Loop is off.
     function handleCurrentSound(param) {
@@ -270,11 +147,11 @@ function Main() {
                     setSixthString(false);
                     setFirstString(true);
 
-                    standardA.stop();
-                    standardD.stop();
-                    standardG.stop();
-                    standardB.stop();
-                    standardHighE.stop();
+                    createStandard[1].stop();
+                    createStandard[2].stop();
+                    createStandard[3].stop();
+                    createStandard[4].stop();
+                    createStandard[5].stop();
 
                     stringTwo.current = false;
                     stringThree.current = false;
@@ -288,7 +165,8 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardLowE, looped, setFirstString);
+                    updateHowlerCtx();
+                    handleStringOptions(createStandard[0], looped, setFirstString, stringOne);
 
                 } else if (param === "A" && looped.current === true) {
                     setFirstString(false);
@@ -298,11 +176,11 @@ function Main() {
                     setSixthString(false);
                     setSecondString(true);
 
-                    standardLowE.stop();
-                    standardD.stop();
-                    standardG.stop();
-                    standardB.stop();
-                    standardHighE.stop();
+                    createStandard[0].stop();
+                    createStandard[2].stop();
+                    createStandard[3].stop();
+                    createStandard[4].stop();
+                    createStandard[5].stop();
 
                     stringOne.current = false;
                     stringThree.current = false;
@@ -316,7 +194,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardA, looped, setSecondString);
+                    handleStringOptions(createStandard[1], looped, setSecondString, stringTwo);
 
                 } else if (param === "D" && looped.current === true) {
                     setFirstString(false);
@@ -326,11 +204,11 @@ function Main() {
                     setSixthString(false);
                     setThirdString(true);
 
-                    standardLowE.stop();
-                    standardA.stop();
-                    standardG.stop();
-                    standardB.stop();
-                    standardHighE.stop();
+                    createStandard[0].stop();
+                    createStandard[1].stop();
+                    createStandard[3].stop();
+                    createStandard[4].stop();
+                    createStandard[5].stop();
 
                     stringOne.current = false;
                     stringTwo.current = false;
@@ -344,7 +222,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardD, looped, setThirdString);
+                    handleStringOptions(createStandard[2], looped, setThirdString, stringThree);
 
                 } else if (param === "G" && looped.current === true) {
                     setFirstString(false);
@@ -354,11 +232,11 @@ function Main() {
                     setSixthString(false);
                     setFourthString(true);
 
-                    standardLowE.stop();
-                    standardA.stop();
-                    standardD.stop();
-                    standardB.stop();
-                    standardHighE.stop();
+                    createStandard[0].stop();
+                    createStandard[1].stop();
+                    createStandard[2].stop();
+                    createStandard[4].stop();
+                    createStandard[5].stop();
 
                     stringOne.current = false;
                     stringTwo.current = false;
@@ -372,7 +250,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardG, looped, setFourthString);
+                    handleStringOptions(createStandard[3], looped, setFourthString, stringFour);
 
                 } else if (param === "B" && looped.current === true) {
                     setFirstString(false);
@@ -382,11 +260,11 @@ function Main() {
                     setSixthString(false);
                     setFifthString(true);
 
-                    standardLowE.stop();
-                    standardA.stop();
-                    standardD.stop();
-                    standardG.stop();
-                    standardHighE.stop();
+                    createStandard[0].stop();
+                    createStandard[1].stop();
+                    createStandard[2].stop();
+                    createStandard[3].stop();
+                    createStandard[5].stop();
 
                     stringOne.current = false;
                     stringTwo.current = false;
@@ -400,7 +278,7 @@ function Main() {
                     changeStringStatus(stringFour);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(standardB, looped, setFifthString);
+                    handleStringOptions(createStandard[4], looped, setFifthString, stringFive);
 
                 } else if (param === "High E" && looped.current === true) {
                     setFirstString(false);
@@ -410,11 +288,11 @@ function Main() {
                     setFifthString(false);
                     setSixthString(true);
 
-                    standardLowE.stop();
-                    standardA.stop();
-                    standardD.stop();
-                    standardG.stop();
-                    standardB.stop();
+                    createStandard[0].stop();
+                    createStandard[1].stop();
+                    createStandard[2].stop();
+                    createStandard[3].stop();
+                    createStandard[4].stop();
 
                     stringOne.current = false;
                     stringTwo.current = false;
@@ -428,7 +306,7 @@ function Main() {
                     changeStringStatus(stringFour);
                     changeStringStatus(stringFive);
 
-                    handleStringOptions(standardHighE, looped, setSixthString);
+                    handleStringOptions(createStandard[5], looped, setSixthString, stringSix);
 
                 // For when loop mechanic is OFF:
                 } else if (param === "Low E" && looped.current === false) {
@@ -439,7 +317,7 @@ function Main() {
                     setSixthString(false);
                     setFirstString(true);
 
-                    handleStringOptions(standardLowE, looped, setFirstString);
+                    handleStringOptions(createStandard[0], looped, setFirstString, stringOne);
                 } else if (param === "A" && looped.current === false) {
                     setFirstString(false);
                     setThirdString(false);
@@ -448,7 +326,7 @@ function Main() {
                     setSixthString(false);
                     setSecondString(true);
 
-                    handleStringOptions(standardA, looped, setSecondString);
+                    handleStringOptions(createStandard[1], looped, setSecondString, stringTwo);
                 } else if (param === "D" && looped.current === false) {
                     setFirstString(false);
                     setSecondString(false);
@@ -457,7 +335,7 @@ function Main() {
                     setSixthString(false);
                     setThirdString(true);
 
-                    handleStringOptions(standardD, looped, setThirdString);
+                    handleStringOptions(createStandard[2], looped, setThirdString, stringThree);
                 } else if (param === "G" && looped.current === false) {
                     setFirstString(false);
                     setSecondString(false);
@@ -466,7 +344,7 @@ function Main() {
                     setSixthString(false);
                     setFourthString(true);
 
-                    handleStringOptions(standardG, looped, setFourthString);
+                    handleStringOptions(createStandard[3], looped, setFourthString, stringFour);
                 } else if (param === "B" && looped.current === false) {
                     setFirstString(false);
                     setSecondString(false);
@@ -475,7 +353,7 @@ function Main() {
                     setSixthString(false);
                     setFifthString(true);
 
-                    handleStringOptions(standardB, looped, setFifthString);
+                    handleStringOptions(createStandard[4], looped, setFifthString, stringFive);
                 } else if (param === "High E" && looped.current === false) {
                     setFirstString(false);
                     setSecondString(false);
@@ -484,7 +362,7 @@ function Main() {
                     setFifthString(false);
                     setSixthString(true);
 
-                    handleStringOptions(standardHighE, looped, setSixthString);
+                    handleStringOptions(createStandard[5], looped, setSixthString, stringSix);
                 }
                 return ;
 
@@ -498,12 +376,12 @@ function Main() {
                         setFifthString(false);
                         setSixthString(false);
                         setFirstString(true);
-    
-                        dropDA.stop();
-                        dropDD.stop();
-                        dropDG.stop();
-                        dropDB.stop();
-                        dropDHighE.stop();
+
+                        createDropD[1].stop();
+                        createDropD[2].stop();
+                        createDropD[3].stop();
+                        createDropD[4].stop();
+                        createDropD[5].stop();
     
                         stringTwo.current = false;
                         stringThree.current = false;
@@ -517,7 +395,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDLowD, looped, setFirstString);
+                        handleStringOptions(createDropD[0], looped, setFirstString, stringOne);
                     } else if (param === "A" && looped.current === true) {
                         setFirstString(false);
                         setThirdString(false);
@@ -526,11 +404,11 @@ function Main() {
                         setSixthString(false);
                         setSecondString(true);
     
-                        dropDLowD.stop();
-                        dropDD.stop();
-                        dropDG.stop();
-                        dropDB.stop();
-                        dropDHighE.stop();
+                        createDropD[0].stop();
+                        createDropD[2].stop();
+                        createDropD[3].stop();
+                        createDropD[4].stop();
+                        createDropD[5].stop();
     
                         stringOne.current = false;
                         stringThree.current = false;
@@ -544,7 +422,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDA, looped, setSecondString);
+                        handleStringOptions(createDropD[1], looped, setSecondString, stringTwo);
                     } else if (param === "D" && looped.current === true) {
                         setFirstString(false);
                         setSecondString(false);
@@ -553,11 +431,11 @@ function Main() {
                         setSixthString(false);
                         setThirdString(true);
     
-                        dropDLowD.stop();
-                        dropDA.stop();
-                        dropDG.stop();
-                        dropDB.stop();
-                        dropDHighE.stop();
+                        createDropD[0].stop();
+                        createDropD[1].stop();
+                        createDropD[3].stop();
+                        createDropD[4].stop();
+                        createDropD[5].stop();
     
                         stringOne.current = false;
                         stringTwo.current = false;
@@ -571,7 +449,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDD, looped, setThirdString);
+                        handleStringOptions(createDropD[2], looped, setThirdString, stringThree);
     
                     } else if (param === "G" && looped.current === true) {
                         setFirstString(false);
@@ -581,11 +459,11 @@ function Main() {
                         setSixthString(false);
                         setFourthString(true);
     
-                        dropDLowD.stop();
-                        dropDA.stop();
-                        dropDD.stop();
-                        dropDB.stop();
-                        dropDHighE.stop();
+                        createDropD[0].stop();
+                        createDropD[1].stop();
+                        createDropD[2].stop();
+                        createDropD[4].stop();
+                        createDropD[5].stop();
     
                         stringOne.current = false;
                         stringTwo.current = false;
@@ -599,7 +477,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDG, looped, setFourthString);
+                        handleStringOptions(createDropD[3], looped, setFourthString, stringFour);
     
                     } else if (param === "B" && looped.current === true) {
                         setFirstString(false);
@@ -609,11 +487,11 @@ function Main() {
                         setSixthString(false);
                         setFifthString(true);
     
-                        dropDLowD.stop();
-                        dropDA.stop();
-                        dropDD.stop();
-                        dropDG.stop();
-                        dropDHighE.stop();
+                        createDropD[0].stop();
+                        createDropD[1].stop();
+                        createDropD[2].stop();
+                        createDropD[3].stop();
+                        createDropD[5].stop();
     
                         stringOne.current = false;
                         stringTwo.current = false;
@@ -627,7 +505,7 @@ function Main() {
                         changeStringStatus(stringFour);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dropDB, looped, setFifthString);
+                        handleStringOptions(createDropD[4], looped, setFifthString, stringFive);
     
                     } else if (param === "High E" && looped.current === true) {
                         setFirstString(false);
@@ -637,11 +515,11 @@ function Main() {
                         setFifthString(false);
                         setSixthString(true);
     
-                        dropDLowD.stop();
-                        dropDA.stop();
-                        dropDD.stop();
-                        dropDG.stop();
-                        dropDB.stop();
+                        createDropD[0].stop();
+                        createDropD[1].stop();
+                        createDropD[2].stop();
+                        createDropD[3].stop();
+                        createDropD[4].stop();
     
                         stringOne.current = false;
                         stringTwo.current = false;
@@ -655,7 +533,7 @@ function Main() {
                         changeStringStatus(stringFour);
                         changeStringStatus(stringFive);
     
-                        handleStringOptions(dropDHighE, looped, setSixthString);
+                        handleStringOptions(createDropD[5], looped, setSixthString, stringSix);
 
                     // For when loop mechanic is OFF:
                     } else if (param === "Low D" && looped.current === false) {
@@ -666,7 +544,7 @@ function Main() {
                         setSixthString(false);
                         setFirstString(true);
     
-                        handleStringOptions(dropDLowD, looped, setFirstString);
+                        handleStringOptions(createDropD[0], looped, setFirstString, stringOne);
                     } else if (param === "A" && looped.current === false) {
                         setFirstString(false);
                         setThirdString(false);
@@ -675,7 +553,7 @@ function Main() {
                         setSixthString(false);
                         setSecondString(true);
     
-                        handleStringOptions(dropDA, looped, setSecondString);
+                        handleStringOptions(createDropD[1], looped, setSecondString, stringTwo);
                     } else if (param === "D" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -684,7 +562,7 @@ function Main() {
                         setSixthString(false);
                         setThirdString(true);
     
-                        handleStringOptions(dropDD, looped, setThirdString);
+                        handleStringOptions(createDropD[2], looped, setThirdString, stringThree);
                     } else if (param === "G" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -693,7 +571,7 @@ function Main() {
                         setSixthString(false);
                         setFourthString(true);
     
-                        handleStringOptions(dropDG, looped, setFourthString);
+                        handleStringOptions(createDropD[3], looped, setFourthString, stringFour);
                     } else if (param === "B" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -702,7 +580,7 @@ function Main() {
                         setSixthString(false);
                         setFifthString(true);
     
-                        handleStringOptions(dropDB, looped, setFifthString);
+                        handleStringOptions(createDropD[4], looped, setFifthString, stringFive);
                     } else if (param === "High E" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -711,7 +589,7 @@ function Main() {
                         setFifthString(false);
                         setSixthString(true);
     
-                        handleStringOptions(dropDHighE, looped, setSixthString);
+                        handleStringOptions(createDropD[5], looped, setSixthString, stringSix);
                     }
                     return ;
 
@@ -726,11 +604,11 @@ function Main() {
                     setSixthString(false);
                     setFirstString(true);
 
-                    dropCg.stop();
-                    dropCc.stop();
-                    dropCf.stop();
-                    dropCa.stop();
-                    dropCHighD.stop();
+                    createDropC[1].stop();
+                    createDropC[2].stop();
+                    createDropC[3].stop();
+                    createDropC[4].stop();
+                    createDropC[5].stop();
 
                     stringTwo.current = false;
                     stringThree.current = false;
@@ -744,7 +622,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCLowC, looped, setFirstString);
+                    handleStringOptions(createDropC[0], looped, setFirstString, stringOne);
 
                 } else if (param === "G" && looped.current === true) {
                     setFirstString(false);
@@ -754,11 +632,11 @@ function Main() {
                     setSixthString(false);
                     setSecondString(true);
 
-                    dropCLowC.stop();
-                    dropCc.stop();
-                    dropCf.stop();
-                    dropCa.stop();
-                    dropCHighD.stop();
+                    createDropC[0].stop();
+                    createDropC[2].stop();
+                    createDropC[3].stop();
+                    createDropC[4].stop();
+                    createDropC[5].stop();
 
                     stringOne.current = false;
                     stringThree.current = false;
@@ -772,7 +650,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCg, looped, setSecondString);
+                    handleStringOptions(createDropC[1], looped, setSecondString, stringTwo);
 
                 } else if (param === "C" && looped.current === true) {
                     setFirstString(false);
@@ -782,11 +660,11 @@ function Main() {
                     setSixthString(false);
                     setThirdString(true);
 
-                    dropCLowC.stop();
-                    dropCg.stop();
-                    dropCf.stop();
-                    dropCa.stop();
-                    dropCHighD.stop();
+                    createDropC[0].stop();
+                    createDropC[1].stop();
+                    createDropC[3].stop();
+                    createDropC[4].stop();
+                    createDropC[5].stop();
 
                     stringOne.current = false;
                     stringTwo.current = false;
@@ -800,7 +678,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCc, looped, setThirdString);
+                    handleStringOptions(createDropC[2], looped, setThirdString, stringThree);
 
                 // For when loop mechanic is OFF:
                 } else if (param === "F" && looped.current === true) {
@@ -811,11 +689,11 @@ function Main() {
                     setSixthString(false);
                     setFourthString(true);
 
-                    dropCLowC.stop();
-                    dropCg.stop();
-                    dropCc.stop();
-                    dropCa.stop();
-                    dropCHighD.stop();
+                    createDropC[0].stop();
+                    createDropC[1].stop();
+                    createDropC[2].stop();
+                    createDropC[4].stop();
+                    createDropC[5].stop();
 
                     stringOne.current = false;
                     stringTwo.current = false;
@@ -829,7 +707,7 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCf, looped, setFourthString);
+                    handleStringOptions(createDropC[3], looped, setFourthString, stringFour);
 
                 } else if (param === "A" && looped.current === true) {
                     setFirstString(false);
@@ -839,11 +717,11 @@ function Main() {
                     setSixthString(false);
                     setFifthString(true);
 
-                    dropCLowC.stop();
-                    dropCg.stop();
-                    dropCc.stop();
-                    dropCf.stop();
-                    dropCHighD.stop();
+                    createDropC[0].stop();
+                    createDropC[1].stop();
+                    createDropC[2].stop();
+                    createDropC[3].stop();
+                    createDropC[5].stop();
 
                     stringOne.current = false;
                     stringTwo.current = false;
@@ -857,7 +735,7 @@ function Main() {
                     changeStringStatus(stringFour);
                     changeStringStatus(stringSix);
 
-                    handleStringOptions(dropCa, looped, setFifthString);
+                    handleStringOptions(createDropC[4], looped, setFifthString, stringFive);
 
                 } else if (param === "High D" && looped.current === true) {
                     setFirstString(false);
@@ -867,11 +745,11 @@ function Main() {
                     setFifthString(false);
                     setSixthString(true);
 
-                    dropCLowC.stop();
-                    dropCg.stop();
-                    dropCc.stop();
-                    dropCf.stop();
-                    dropCa.stop();
+                    createDropC[0].stop();
+                    createDropC[1].stop();
+                    createDropC[2].stop();
+                    createDropC[3].stop();
+                    createDropC[4].stop();
 
                     stringOne.current = false;
                     stringTwo.current = false;
@@ -885,7 +763,7 @@ function Main() {
                     changeStringStatus(stringFour);
                     changeStringStatus(stringFive);
 
-                    handleStringOptions(dropCHighD, looped, setSixthString);
+                    handleStringOptions(createDropC[5], looped, setSixthString, stringSix);
 
                 } else if (param === "Low C" && looped.current === false) {
                     setSecondString(false);
@@ -895,7 +773,7 @@ function Main() {
                     setSixthString(false);
                     setFirstString(true);
 
-                    handleStringOptions(dropCLowC, looped, setFirstString);
+                    handleStringOptions(createDropC[0], looped, setFirstString, stringOne);
 
                 } else if (param === "G" && looped.current === false) {
                     setFirstString(false);
@@ -905,7 +783,7 @@ function Main() {
                     setSixthString(false);
                     setSecondString(true);
 
-                    handleStringOptions(dropCg, looped, setSecondString);
+                    handleStringOptions(createDropC[1], looped, setSecondString, stringTwo);
 
                 } else if (param === "C" && looped.current === false) {
                     setFirstString(false);
@@ -915,7 +793,7 @@ function Main() {
                     setSixthString(false);
                     setThirdString(true);
 
-                    handleStringOptions(dropCc, looped, setThirdString);
+                    handleStringOptions(createDropC[2], looped, setThirdString, stringThree);
 
                 } else if (param === "F" && looped.current === false) {
                     setFirstString(false);
@@ -925,7 +803,7 @@ function Main() {
                     setSixthString(false);
                     setFourthString(true);
 
-                    handleStringOptions(dropCf, looped, setFourthString);
+                    handleStringOptions(createDropC[3], looped, setFourthString, stringFour);
 
                 } else if (param === "A" && looped.current === false) {
                     setFirstString(false);
@@ -935,7 +813,7 @@ function Main() {
                     setSixthString(false);
                     setFifthString(true);
 
-                    handleStringOptions(dropCa, looped, setFifthString);
+                    handleStringOptions(createDropC[4], looped, setFifthString, stringFive);
 
                 } else if (param === "High D" && looped.current === false) {
                     setFirstString(false);
@@ -945,7 +823,7 @@ function Main() {
                     setFifthString(false);
                     setSixthString(true);
 
-                    handleStringOptions(dropCHighD, looped, setSixthString);
+                    handleStringOptions(createDropC[5], looped, setSixthString, stringSix);
                 }
                 return ;
 
@@ -960,11 +838,11 @@ function Main() {
                         setSixthString(false);
                         setFirstString(true);
     
-                        dadgadLowA.stop();
-                        dadgadD.stop();
-                        dadgadG.stop();
-                        dadgadA.stop();
-                        dadgadHighD.stop();
+                        createDADGAD[1].stop();
+                        createDADGAD[2].stop();
+                        createDADGAD[3].stop();
+                        createDADGAD[4].stop();
+                        createDADGAD[5].stop();
     
                         stringTwo.current = false;
                         stringThree.current = false;
@@ -978,7 +856,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadLowD, looped, setFirstString);
+                        handleStringOptions(createDADGAD[0], looped, setFirstString, stringOne);
 
                     } else if (param === "Low A" && looped.current === true) {
                         setFirstString(false);
@@ -988,11 +866,11 @@ function Main() {
                         setSixthString(false);
                         setSecondString(true);
     
-                        dadgadLowD.stop();
-                        dadgadD.stop();
-                        dadgadG.stop();
-                        dadgadA.stop();
-                        dadgadHighD.stop();
+                        createDADGAD[0].stop();
+                        createDADGAD[2].stop();
+                        createDADGAD[3].stop();
+                        createDADGAD[4].stop();
+                        createDADGAD[5].stop();
     
                         stringOne.current = false;
                         stringThree.current = false;
@@ -1006,7 +884,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadLowA, looped, setSecondString);
+                        handleStringOptions(createDADGAD[1], looped, setSecondString, stringTwo);
 
                     } else if (param === "D" && looped.current === true) {
                         setFirstString(false);
@@ -1016,11 +894,11 @@ function Main() {
                         setSixthString(false);
                         setThirdString(true);
     
-                        dadgadLowD.stop();
-                        dadgadLowA.stop();
-                        dadgadG.stop();
-                        dadgadA.stop();
-                        dadgadHighD.stop();
+                        createDADGAD[0].stop();
+                        createDADGAD[1].stop();
+                        createDADGAD[3].stop();
+                        createDADGAD[4].stop();
+                        createDADGAD[5].stop();
     
                         stringOne.current = false;
                         stringTwo.current = false;
@@ -1034,7 +912,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadD, looped, setThirdString);
+                        handleStringOptions(createDADGAD[2], looped, setThirdString, stringThree);
     
                     } else if (param === "G" && looped.current === true) {
                         setFirstString(false);
@@ -1044,11 +922,11 @@ function Main() {
                         setSixthString(false);
                         setFourthString(true);
     
-                        dadgadLowD.stop();
-                        dadgadLowA.stop();
-                        dadgadD.stop();
-                        dadgadA.stop();
-                        dadgadHighD.stop();
+                        createDADGAD[0].stop();
+                        createDADGAD[1].stop();
+                        createDADGAD[2].stop();
+                        createDADGAD[4].stop();
+                        createDADGAD[5].stop();
     
                         stringOne.current = false;
                         stringTwo.current = false;
@@ -1062,7 +940,7 @@ function Main() {
                         changeStringStatus(stringFive);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadG, looped, setFourthString);
+                        handleStringOptions(createDADGAD[3], looped, setFourthString, stringFour);
     
                     } else if (param === "A" && looped.current === true) {
                         setFirstString(false);
@@ -1072,11 +950,11 @@ function Main() {
                         setSixthString(false);
                         setFifthString(true);
     
-                        dadgadLowD.stop();
-                        dadgadLowA.stop();
-                        dadgadD.stop();
-                        dadgadG.stop();
-                        dadgadHighD.stop();
+                        createDADGAD[0].stop();
+                        createDADGAD[1].stop();
+                        createDADGAD[2].stop();
+                        createDADGAD[3].stop();
+                        createDADGAD[5].stop();
     
                         stringOne.current = false;
                         stringTwo.current = false;
@@ -1090,7 +968,7 @@ function Main() {
                         changeStringStatus(stringFour);
                         changeStringStatus(stringSix);
     
-                        handleStringOptions(dadgadA, looped, setFifthString);
+                        handleStringOptions(createDADGAD[4], looped, setFifthString, stringFive);
     
                     } else if (param === "High D" && looped.current === true) {
                         setFirstString(false);
@@ -1100,11 +978,11 @@ function Main() {
                         setFifthString(false);
                         setSixthString(true);
     
-                        dadgadLowD.stop();
-                        dadgadLowA.stop();
-                        dadgadD.stop();
-                        dadgadG.stop();
-                        dadgadA.stop();
+                        createDADGAD[0].stop();
+                        createDADGAD[1].stop();
+                        createDADGAD[2].stop();
+                        createDADGAD[3].stop();
+                        createDADGAD[4].stop();
     
                         stringOne.current = false;
                         stringTwo.current = false;
@@ -1118,7 +996,7 @@ function Main() {
                         changeStringStatus(stringFour);
                         changeStringStatus(stringFive);
     
-                        handleStringOptions(dadgadHighD, looped, setSixthString);
+                        handleStringOptions(createDADGAD[5], looped, setSixthString, stringSix);
 
                     // For when loop mechanic is OFF:
                     } else if (param === "Low D" && looped.current === false) {
@@ -1129,7 +1007,7 @@ function Main() {
                         setSixthString(false);
                         setFirstString(true);
     
-                        handleStringOptions(dadgadLowD, looped, setFirstString);
+                        handleStringOptions(createDADGAD[0], looped, setFirstString, stringOne);
                     } else if (param === "Low A" && looped.current === false) {
                         setFirstString(false);
                         setThirdString(false);
@@ -1138,7 +1016,7 @@ function Main() {
                         setSixthString(false);
                         setSecondString(true);
     
-                        handleStringOptions(dadgadLowA, looped, setSecondString);
+                        handleStringOptions(createDADGAD[1], looped, setSecondString, stringTwo);
                     } else if (param === "D" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -1147,7 +1025,7 @@ function Main() {
                         setSixthString(false);
                         setThirdString(true);
     
-                        handleStringOptions(dadgadD, looped, setThirdString);
+                        handleStringOptions(createDADGAD[2], looped, setThirdString, stringThree);
                     } else if (param === "G" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -1156,7 +1034,7 @@ function Main() {
                         setSixthString(false);
                         setFourthString(true);
     
-                        handleStringOptions(dadgadG, looped, setFourthString);
+                        handleStringOptions(createDADGAD[3], looped, setFourthString, stringFour);
                     } else if (param === "A" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -1165,7 +1043,7 @@ function Main() {
                         setSixthString(false);
                         setFifthString(true);
     
-                        handleStringOptions(dadgadA, looped, setFifthString);
+                        handleStringOptions(createDADGAD[4], looped, setFifthString, stringFive);
                     } else if (param === "High D" && looped.current === false) {
                         setFirstString(false);
                         setSecondString(false);
@@ -1174,7 +1052,7 @@ function Main() {
                         setFifthString(false);
                         setSixthString(true);
     
-                        handleStringOptions(dadgadHighD, looped, setSixthString);
+                        handleStringOptions(createDADGAD[5], looped, setSixthString, stringSix);
                     }
                     return ;
 
@@ -1311,37 +1189,6 @@ function Main() {
         }
     }, [visible]);
 
-    // useEffect(() => {
-    //     standardLowE.load();
-    //     standardLowE.once("load", () => {
-    //         console.log("standardLowE loaded.");
-    //     });
-    //     standardA.load();
-    //     standardD.load();
-    //     standardG.load();
-    //     standardB.load();
-    //     standardHighE.load();
-    //     dropDLowD.load();
-    //     dropDA.load();
-    //     dropDD.load();
-    //     dropDG.load();
-    //     dropDB.load();
-    //     dropDHighE.load();
-    //     dropCLowC.load();
-    //     dropCg.load();
-    //     dropCc.load();
-    //     dropCf.load();
-    //     dropCa.load();
-    //     dropCHighD.load();
-    //     dadgadLowD.load();
-    //     dadgadLowA.load();
-    //     dadgadD.load();
-    //     dadgadG.load();
-    //     dadgadA.load();
-    //     dadgadHighD.load();
-    //     console.log(standardLowE.state());
-    // });
-
     // Handles whether the initial welcome pop-up is visible (when set to true) or not (when set to false):
     function handlePopUp() {
         setVisible(false);
@@ -1374,12 +1221,19 @@ function Main() {
         }
     }
 
+    function updateHowlerCtx() {
+        console.log(Howler.ctx.state);
+        if (Howler.ctx.state !== "running") {
+            Howler.ctx.resume();
+        }
+    }
+
     return (
-        <div className={currentlySelected.name === "Standard Tuning" ? "App-Container-Standard" : currentlySelected.name === "Drop D" ? "App-Container-DropD" : currentlySelected.name === "Drop C" ? "App-Container-DropC" : currentlySelected.name === "DADGAD" ? "App-Container-DADGAD" : null}>
+        <div onTouchStartCapture={updateHowlerCtx} className={currentlySelected.name === "Standard Tuning" ? "App-Container-Standard" : currentlySelected.name === "Drop D" ? "App-Container-DropD" : currentlySelected.name === "Drop C" ? "App-Container-DropC" : currentlySelected.name === "DADGAD" ? "App-Container-DADGAD" : null}>
             <div className="main-container">
                 <header>
                     <div className="app-title-container">
-                        <h1 onClick={checkState} className="app-title">Sonus</h1>
+                        <h1 onClick={checkTheSound} className="app-title">Sonus</h1>
                     </div>
                 </header>
 
