@@ -84,7 +84,6 @@ hr {
 
 .App-Container-Standard {
     background-color:rgba(0, 25, 63, 0.2);
-    border: 1px solid blue;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -141,7 +140,7 @@ hr {
 .tips-section {
     display: flex;
     flex-direction: column;
-    width: 272px;
+    width: 340px;
     position: absolute;
     z-index: 200;
     justify-content: center;
@@ -203,6 +202,7 @@ hr {
     font-weight: 200;
     padding: 7px;
     transition: background-color 0.2s ease-in-out;
+    width: 95px;
 }
 
 .tips-button-container button:hover {
@@ -212,6 +212,10 @@ hr {
 
 .tips-email {
     color:rgb(95, 255, 240);
+}
+
+.tips-email:hover {
+    text-decoration: underline;
 }
 
 .main-container {

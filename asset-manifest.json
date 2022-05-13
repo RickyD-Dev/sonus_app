@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/sonus_app/static/js/main.eef95702.js",
+    "main.js": "/sonus_app/static/js/main.4f923c60.js",
     "static/media/DADGAD_D_String.mp3": "/sonus_app/static/media/DADGAD_D_String.c5affa33c704b04e9482.mp3",
     "static/media/Standard_D_String.mp3": "/sonus_app/static/media/Standard_D_String.4f85f25973559cf16c47.mp3",
     "static/media/DropD_D_String.mp3": "/sonus_app/static/media/DropD_D_String.f5a224f7034ff2a0dc64.mp3",
@@ -26,9 +26,9 @@
     "static/media/DropD_LowD_String.mp3": "/sonus_app/static/media/DropD_LowD_String.dffca649ab4025170dba.mp3",
     "static/media/DADGAD_LowD_String.mp3": "/sonus_app/static/media/DADGAD_LowD_String.414280db943d9026963b.mp3",
     "index.html": "/sonus_app/index.html",
-    "main.eef95702.js.map": "/sonus_app/static/js/main.eef95702.js.map"
+    "main.4f923c60.js.map": "/sonus_app/static/js/main.4f923c60.js.map"
   },
   "entrypoints": [
-    "static/js/main.eef95702.js"
+    "static/js/main.4f923c60.js"
   ]
 }
