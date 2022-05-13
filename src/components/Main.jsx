@@ -87,15 +87,24 @@ function Main() {
             }
         }
 
+        function windowIsOpen() {
+                if (sound.playing()) {
+                    if (document.visibilityState === "hidden") {
+                        console.log("Window hidden.");
+                        sound.stop();
+                    }
+                    setTimeout(windowIsOpen, 200);
+                }
+            }
+
         sound.on("play", () => {
+            windowIsOpen();
             isPlaying();
-            console.log(sound.state());
         });
 
         sound.on("end", () => {
             setFunc(false);
             console.log("Finished playing.");
-            console.log(sound.state());
             if (loopRef.current === true) {
                 sound.on("play", () => {
                     setFunc(true);
@@ -106,7 +115,9 @@ function Main() {
             }
         });
 
-        sound.play();
+        if (document.visibilityState === "visible") {
+            sound.play();
+        }
 
         // if (Howler.ctx.state === "suspended") {
         //     console.log(Howler.ctx.state);
@@ -121,10 +132,6 @@ function Main() {
         //     console.log(Howler.ctx.state);
         //     sound.play();
         // }
-    }
-
-    function checkTheSound() {
-        console.log(createStandard[0]);
     }
 
     // When true, the sounds are allowed to play. When false, the sound stops.
@@ -1222,22 +1229,6 @@ function Main() {
                 return ;
         }
     }
-
-    // const myInterval = setInterval(docVisibility, 3000);
-
-    // function docVisibility() {
-    //     const docState = document.visibilityState
-    //     if (docState === "visible") {
-    //         console.log(document.visibilityState);
-    //     } else if (docState === "hidden") {
-    //         console.log("HIDDEN");
-    //     }
-    // }
-
-    // function stopMyInterval() {
-    //     clearInterval(myInterval);
-    //     console.log("Interval cleared.");
-    // }
 
     return (
         <div className={currentlySelected.name === "Standard Tuning" ? "App-Container-Standard" : currentlySelected.name === "Drop D" ? "App-Container-DropD" : currentlySelected.name === "Drop C" ? "App-Container-DropC" : currentlySelected.name === "DADGAD" ? "App-Container-DADGAD" : null}>

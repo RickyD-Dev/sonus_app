@@ -4,6 +4,7 @@ import soundLibrary from "./soundLibrary";
 // ----------------- Standard Sounds -----------------:
 const standardLowE = new Howl ({
     src: [soundLibrary[0].sounds[0]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -13,6 +14,7 @@ const standardLowE = new Howl ({
 
 const standardA = new Howl ({
     src: [soundLibrary[0].sounds[1]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -22,6 +24,7 @@ const standardA = new Howl ({
 
 const standardD = new Howl ({
     src: [soundLibrary[0].sounds[2]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -31,6 +34,7 @@ const standardD = new Howl ({
 
 const standardG = new Howl ({
     src: [soundLibrary[0].sounds[3]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -40,6 +44,7 @@ const standardG = new Howl ({
 
 const standardB = new Howl ({
     src: [soundLibrary[0].sounds[4]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -49,6 +54,7 @@ const standardB = new Howl ({
 
 const standardHighE = new Howl ({
     src: [soundLibrary[0].sounds[5]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -59,8 +65,10 @@ const standardHighE = new Howl ({
 const createStandard = [standardLowE, standardA, standardD, standardG, standardB, standardHighE];
 
 // ----------------- Drop D Sounds -----------------:
+
 const dropDLowD = new Howl ({
     src: [soundLibrary[1].sounds[0]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -70,6 +78,7 @@ const dropDLowD = new Howl ({
 
 const dropDA = new Howl ({
     src: [soundLibrary[1].sounds[1]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -79,6 +88,7 @@ const dropDA = new Howl ({
 
 const dropDD = new Howl ({
     src: [soundLibrary[1].sounds[2]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -88,6 +98,7 @@ const dropDD = new Howl ({
 
 const dropDG = new Howl ({
     src: [soundLibrary[1].sounds[3]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -97,6 +108,7 @@ const dropDG = new Howl ({
 
 const dropDB = new Howl ({
     src: [soundLibrary[1].sounds[4]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -106,6 +118,7 @@ const dropDB = new Howl ({
 
 const dropDHighE = new Howl ({
     src: [soundLibrary[1].sounds[5]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -118,6 +131,7 @@ const createDropD = [dropDLowD, dropDA, dropDD, dropDG, dropDB, dropDHighE];
 // ----------------- Drop C Sounds -----------------:
 const dropCLowC = new Howl ({
     src: [soundLibrary[2].sounds[0]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -127,6 +141,7 @@ const dropCLowC = new Howl ({
 
 const dropCg = new Howl ({
     src: [soundLibrary[2].sounds[1]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -136,6 +151,7 @@ const dropCg = new Howl ({
 
 const dropCc = new Howl ({
     src: [soundLibrary[2].sounds[2]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -145,6 +161,7 @@ const dropCc = new Howl ({
 
 const dropCf = new Howl ({
     src: [soundLibrary[2].sounds[3]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -154,6 +171,7 @@ const dropCf = new Howl ({
 
 const dropCa = new Howl ({
     src: [soundLibrary[2].sounds[4]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -163,6 +181,7 @@ const dropCa = new Howl ({
 
 const dropCHighD = new Howl ({
     src: [soundLibrary[2].sounds[5]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -175,6 +194,7 @@ const createDropC = [dropCLowC, dropCg, dropCc, dropCf, dropCa, dropCHighD];
 // ----------------- DADGAD Sounds -----------------:
 const dadgadLowD = new Howl ({
     src: [soundLibrary[3].sounds[0]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -184,6 +204,7 @@ const dadgadLowD = new Howl ({
 
 const dadgadLowA = new Howl ({
     src: [soundLibrary[3].sounds[1]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -193,6 +214,7 @@ const dadgadLowA = new Howl ({
 
 const dadgadD = new Howl ({
     src: [soundLibrary[3].sounds[2]],
+    html5: true,
    onplay: () => {
         console.log("Playing");
     },
@@ -202,6 +224,7 @@ const dadgadD = new Howl ({
 
 const dadgadG = new Howl ({
     src: [soundLibrary[3].sounds[3]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -211,6 +234,7 @@ const dadgadG = new Howl ({
 
 const dadgadA = new Howl ({
     src: [soundLibrary[3].sounds[4]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -220,6 +244,7 @@ const dadgadA = new Howl ({
 
 const dadgadHighD = new Howl ({
     src: [soundLibrary[3].sounds[5]],
+    html5: true,
     onplay: () => {
         console.log("Playing");
     },
@@ -233,5 +258,5 @@ export {
     createStandard,
     createDropD,
     createDropC,
-    createDADGAD
+    createDADGAD,
 }
