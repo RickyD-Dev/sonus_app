@@ -1223,28 +1223,28 @@ function Main() {
         }
     }
 
-    const myInterval = setInterval(docVisibility, 3000);
+    // const myInterval = setInterval(docVisibility, 3000);
 
-    function docVisibility() {
-        const docState = document.visibilityState
-        if (docState === "visible") {
-            console.log(document.visibilityState);
-        } else if (docState === "hidden") {
-            console.log("HIDDEN");
-        }
-    }
+    // function docVisibility() {
+    //     const docState = document.visibilityState
+    //     if (docState === "visible") {
+    //         console.log(document.visibilityState);
+    //     } else if (docState === "hidden") {
+    //         console.log("HIDDEN");
+    //     }
+    // }
 
-    function stopMyInterval() {
-        clearInterval(myInterval);
-        console.log("Interval cleared.");
-    }
+    // function stopMyInterval() {
+    //     clearInterval(myInterval);
+    //     console.log("Interval cleared.");
+    // }
 
     return (
         <div className={currentlySelected.name === "Standard Tuning" ? "App-Container-Standard" : currentlySelected.name === "Drop D" ? "App-Container-DropD" : currentlySelected.name === "Drop C" ? "App-Container-DropC" : currentlySelected.name === "DADGAD" ? "App-Container-DADGAD" : null}>
             <div className="main-container">
                 <header>
                     <div className="app-title-container">
-                        <h1 onClick={stopMyInterval} className="app-title">Sonus</h1>
+                        <h1 className="app-title">Sonus</h1>
                     </div>
                 </header>
 
