@@ -813,6 +813,10 @@ footer {
         width: 46%;
     }
 
+    .guitar-container {
+        height: 520px;
+    }
+
     footer {
         position: relative;
         bottom: 0;
