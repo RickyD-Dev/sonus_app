@@ -6,7 +6,6 @@ import Looper from "./Looper";
 import TuningMenu from "./TuningMenu";
 import TuningSelection from "./TuningSelection";
 import Tips from "./Tips";
-import { Howler } from "howler";
 
 function Main() {
 
@@ -169,7 +168,6 @@ function Main() {
                     changeStringStatus(stringFive);
                     changeStringStatus(stringSix);
 
-                    updateHowlerCtx();
                     handleStringOptions(createStandard[0], looped, setFirstString, stringOne);
 
                 } else if (param === "A" && looped.current === true) {
@@ -1225,19 +1223,28 @@ function Main() {
         }
     }
 
-    function updateHowlerCtx() {
-        console.log(Howler.ctx.state);
-        if (Howler.ctx.state !== "running") {
-            Howler.ctx.resume();
+    const myInterval = setInterval(docVisibility, 3000);
+
+    function docVisibility() {
+        const docState = document.visibilityState
+        if (docState === "visible") {
+            console.log(document.visibilityState);
+        } else if (docState === "hidden") {
+            console.log("HIDDEN");
         }
     }
 
+    function stopMyInterval() {
+        clearInterval(myInterval);
+        console.log("Interval cleared.");
+    }
+
     return (
-        <div onTouchStartCapture={updateHowlerCtx} className={currentlySelected.name === "Standard Tuning" ? "App-Container-Standard" : currentlySelected.name === "Drop D" ? "App-Container-DropD" : currentlySelected.name === "Drop C" ? "App-Container-DropC" : currentlySelected.name === "DADGAD" ? "App-Container-DADGAD" : null}>
+        <div className={currentlySelected.name === "Standard Tuning" ? "App-Container-Standard" : currentlySelected.name === "Drop D" ? "App-Container-DropD" : currentlySelected.name === "Drop C" ? "App-Container-DropC" : currentlySelected.name === "DADGAD" ? "App-Container-DADGAD" : null}>
             <div className="main-container">
                 <header>
                     <div className="app-title-container">
-                        <h1 className="app-title">Sonus</h1>
+                        <h1 onClick={stopMyInterval} className="app-title">Sonus</h1>
                     </div>
                 </header>
 
