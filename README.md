@@ -22,8 +22,6 @@ This consists of the notes: Low C, G, C, F, A, High D
 
 This consists of the notes: Low D, Low A, D, G, A, High D
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ## Looping :loop:
 
 You can loop any of the sounds in order to keep a sound playing as you fine tune your guitar to the tone by ear.
